@@ -1,0 +1,43 @@
+export type Faction = 'MO' | 'NIL' | 'SK' | 'SC' | 'NOR';
+
+export type CardType = 'standard' | 'hero' | 'leader' | 'premium';
+
+export type Row = 'close' | 'ranged' | 'siege';
+
+export type Ability =
+	| 'agile'
+	| 'commanders_horn'
+	| 'medic'
+	| 'morale_boost'
+	| 'muster'
+	| 'tight_bond'
+  | 'scorch'
+	| 'unit_scorch'
+	| 'spy'
+	| 'summon'
+	| 'berserker'
+	| 'mardroeme'
+	| 'decoy'
+	| 'biting_frost'
+	| 'impenetrable_fog'
+	| 'torrential_rain'
+	| 'skellige_storm'
+	| 'clear_weather';
+
+export interface CardDefinition {
+	id: string;
+	name: string;
+	description: string;
+	faction: Faction | null;
+	type: CardType;
+	power: number | null;
+	rows: Row[];
+	abilities: Ability[];
+	imagePath: string;
+}
+
+export interface CardSymbolDefinition<TId extends string> {
+	id: TId;
+	label: string;
+	symbolPath: string;
+}
