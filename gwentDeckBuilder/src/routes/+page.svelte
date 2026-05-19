@@ -1,23 +1,14 @@
 <script lang="ts">
 	import Card from '$lib/components/Card.svelte';
+	import { getCardById } from '$lib/cards/registry';
+
+	const cards = [getCardById('ml_toad')];
 </script>
 
 <main class="test-page">
-	<Card
-		faction="MO"
-		type="HERO"
-		name=""
-		imagePath="standard/neutral/neu_geralt.png"
-		description=""
-	/>
-
-	<Card
-		faction="MO"
-		type="NORMAL"
-		name=""
-		imagePath="standard/monsters/nml_toad.png"
-		description=""
-	/>
+	{#each cards as card (card.id)}
+		<Card {card} />
+	{/each}
 </main>
 
 <style>

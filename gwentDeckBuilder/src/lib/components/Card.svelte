@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { abilities as abilitySymbols, rows as rowSymbols } from '$lib/cards/metadata';
+	import type { CardDefinition } from '$lib/cards/types';
+
 	const BASE_PATH = '/resources/cards/';
 	const ELEMENTS_PATH = `${BASE_PATH}elements/`;
 
@@ -6,14 +9,22 @@
 	type CardType = 'HERO' | 'NORMAL' | 'LEADER';
 
 	interface Props {
-		faction: string;
-		type: string;
-		name: string;
-		imagePath: string;
+		card?: CardDefinition;
+		faction?: string;
+		type?: string;
+		name?: string;
+		imagePath?: string;
 		description?: string;
 	}
 
-	let { faction, type, name, imagePath, description = '' }: Props = $props();
+	let {
+		card,
+		faction = card?.faction ?? 'MO',
+		type = card?.type ?? 'standard',
+		name = card?.name ?? '',
+		imagePath = card?.imagePath ?? '',
+		description = card?.description ?? ''
+	}: Props = $props();
 
 	const factions: Faction[] = ['MO', 'NIL', 'NOR', 'SC', 'SK'];
 	const cardTypes: CardType[] = ['HERO', 'NORMAL', 'LEADER'];
@@ -46,6 +57,9 @@
 	};
 
 	const src = $derived(`${BASE_PATH}${imagePath}`);
+	const displayedRows = $derived(card?.rows.slice(0, 2) ?? []);
+	const ability = $derived(card?.abilities[0]);
+	const abilitySymbol = $derived(ability ? abilitySymbols[ability] : undefined);
 	const factionKey = $derived(normalizeFaction(faction));
 	const typeKey = $derived(normalizeType(type));
 	const isGoldFaction = $derived(goldFactions.has(factionKey));
@@ -110,16 +124,34 @@
 				<img class="power-number-border" src={powerNumberBorderSrc} alt="" />
 			{/if}
 			<img class="faction-stripe" src={factionStripeSrc} alt="" />
-			<img
-				class="info1-stripe"
-				src="/resources/cards/elements/additional_info_silver_1.png"
-				alt=""
-			/>
-			<img
-				class="info2-stripe"
-				src="/resources/cards/elements/additional_info_silver_2.png"
-				alt=""
-			/>
+			{#if displayedRows.length > 0}
+				<div class="row-info-stack">
+					{#each displayedRows as row (row)}
+						<div class="row-info">
+							<img
+								class="row-info-background"
+								src="/resources/cards/elements/additional_info_silver_1.png"
+								alt=""
+							/>
+							<img
+								class="row-info-icon"
+								src={rowSymbols[row].symbolPath}
+								alt={rowSymbols[row].label}
+							/>
+						</div>
+					{/each}
+				</div>
+			{/if}
+			{#if abilitySymbol}
+				<div class="ability-info">
+					<img
+						class="ability-info-background"
+						src="/resources/cards/elements/additional_info_silver_2.png"
+						alt=""
+					/>
+					<img class="ability-info-icon" src={abilitySymbol.symbolPath} alt={abilitySymbol.label} />
+				</div>
+			{/if}
 		</div>
 	{/if}
 </div>
@@ -229,24 +261,67 @@
 		left: -7px;
 	}
 
-	.info1-stripe {
+	.row-info-stack {
 		position: absolute;
 		top: 37px;
 		left: -4.9px;
-		width: 31px;
-		height: 31px;
-		max-width: none;
+		display: flex;
+		flex-direction: column;
+		gap: 1px;
 		z-index: 3;
 	}
 
-	.info2-stripe {
+	.row-info {
+		position: relative;
+		width: 31px;
+		height: 31px;
+	}
+
+	.row-info-background {
+		display: block;
+		width: 100%;
+		height: 100%;
+		max-width: none;
+	}
+
+	.row-info-icon {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 19px;
+		height: 19px;
+		max-width: none;
+		object-fit: contain;
+		transform: translate(-50%, -50%);
+		z-index: 1;
+	}
+
+	.ability-info {
 		position: absolute;
 		top: 85px;
 		left: -2.7px;
 		width: 26px;
 		height: 26px;
-		max-width: none;
 		z-index: 3;
+	}
+
+	.ability-info-background {
+		display: block;
+		width: 100%;
+		height: 100%;
+		max-width: none;
+	}
+
+	.ability-info-icon {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 17px;
+		height: 17px;
+		max-width: none;
+		object-fit: contain;
+		transform: translate(-50%, -50%);
+		z-index: 1;
 	}
 
 	.faction-stripe {
