@@ -316,8 +316,8 @@
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		width: 17px;
-		height: 17px;
+		width: 28px;
+		height: 28px;
 		max-width: none;
 		object-fit: contain;
 		transform: translate(-50%, -50%);
