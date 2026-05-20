@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Card from '$lib/components/Card.svelte';
-	import { getCardById } from '$lib/cards/registry';
+	import { getCardById, getCardsByFaction } from '$lib/cards/registry';
 
-	const cards = [getCardById('ml_toad')];
+	const cards = getCardsByFaction("MO");
 </script>
 
 <main class="test-page">

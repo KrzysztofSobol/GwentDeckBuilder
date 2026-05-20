@@ -6,13 +6,14 @@
 	const ELEMENTS_PATH = `${BASE_PATH}elements/`;
 
 	type Faction = 'MO' | 'NIL' | 'NOR' | 'SC' | 'SK';
-	type CardType = 'HERO' | 'NORMAL' | 'LEADER';
+	type CardType = 'HERO' | 'STANDARD' | 'LEADER';
 
 	interface Props {
 		card?: CardDefinition;
 		faction?: string;
 		type?: string;
 		name?: string;
+		power?: number | null;
 		imagePath?: string;
 		description?: string;
 	}
@@ -22,12 +23,13 @@
 		faction = card?.faction ?? 'MO',
 		type = card?.type ?? 'standard',
 		name = card?.name ?? '',
+		power = card?.power ?? null,
 		imagePath = card?.imagePath ?? '',
 		description = card?.description ?? ''
 	}: Props = $props();
 
 	const factions: Faction[] = ['MO', 'NIL', 'NOR', 'SC', 'SK'];
-	const cardTypes: CardType[] = ['HERO', 'NORMAL', 'LEADER'];
+	const cardTypes: CardType[] = ['HERO', 'STANDARD', 'LEADER'];
 	const goldFactions = new Set<Faction>(['NIL', 'SC']);
 
 	const factionStripes: Record<Faction, string> = {
@@ -52,8 +54,12 @@
 	};
 
 	const normalizeType = (value: string): CardType => {
-		const typeKey = value.toUpperCase() as CardType;
-		return cardTypes.includes(typeKey) ? typeKey : 'NORMAL';
+		const typeKey = value.toUpperCase();
+		if (typeKey === 'NORMAL' || typeKey === 'PREMIUM') {
+			return 'STANDARD';
+		}
+		const normalizedTypeKey = typeKey as CardType;
+		return cardTypes.includes(normalizedTypeKey) ? normalizedTypeKey : 'STANDARD';
 	};
 
 	const src = $derived(`${BASE_PATH}${imagePath}`);
@@ -63,10 +69,12 @@
 	const factionKey = $derived(normalizeFaction(faction));
 	const typeKey = $derived(normalizeType(type));
 	const isGoldFaction = $derived(goldFactions.has(factionKey));
-	const shouldShowPowerNumber = $derived(typeKey !== 'LEADER');
-	const shouldShowPowerNumberBorder = $derived(typeKey === 'HERO');
+	const cardTypeClass = $derived(typeKey.toLowerCase());
+	const shouldShowPowerDetails = $derived(typeKey !== 'LEADER');
+	const shouldShowPowerNumberBorder = $derived(typeKey === 'HERO' || typeKey === 'LEADER');
+	const shouldShowPowerValue = $derived(power !== null);
 	const powerNumberCircleSrc = $derived(
-		typeKey === 'HERO'
+		typeKey === 'HERO' || typeKey === 'LEADER'
 			? premiumPowerNumbers[factionKey]
 			: isGoldFaction
 				? `${ELEMENTS_PATH}power_number_gold.png`
@@ -77,9 +85,8 @@
 			? `${ELEMENTS_PATH}power_number_border_gold.png`
 			: `${ELEMENTS_PATH}power_number_border_silver.png`
 	);
-	const powerNumberCircleClass = $derived(
-		`power-number-circle power-number-circle-${typeKey.toLowerCase()}`
-	);
+	const powerNumberCircleClass = $derived(`power-number-circle power-number-circle-${cardTypeClass}`);
+	const powerNumberValueClass = $derived(`power-number-value power-number-value-${cardTypeClass}`);
 	const factionStripeSrc = $derived(factionStripes[factionKey]);
 	const descriptionBackgroundSrc = $derived(
 		typeKey === 'HERO'
@@ -98,31 +105,44 @@
 </script>
 
 <div class="card-wrap">
-	<div class="card">
+	<div
+		class="card"
+		class:card-standard={typeKey === 'STANDARD'}
+		class:card-hero={typeKey === 'HERO'}
+		class:card-leader={typeKey === 'LEADER'}
+	>
 		<div class="card-image">
 			<img {src} alt={name} />
 		</div>
 
-		<div class="card-description">
+		<div
+			class="card-description"
+			class:card-description-standard={typeKey === 'STANDARD'}
+			class:card-description-hero={typeKey === 'HERO'}
+			class:card-description-leader={typeKey === 'LEADER'}
+		>
 			<img class="description-topbar" src={descriptionTopbarSrc} alt="" />
 
 			<div class="description-background">
 				<img class="description-background-image" src={descriptionBackgroundSrc} alt="" />
 
 				<div class="description-text">
-					<p>{name}</p>
-					<p>{description}</p>
+					<p class="description-name">{name}</p>
+					<p class="description-body">{description}</p>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	{#if shouldShowPowerNumber}
-		<div class="power-number">
-			<img class={powerNumberCircleClass} src={powerNumberCircleSrc} alt="" />
-			{#if shouldShowPowerNumberBorder}
-				<img class="power-number-border" src={powerNumberBorderSrc} alt="" />
-			{/if}
+	<div class="power-number">
+		<img class={powerNumberCircleClass} src={powerNumberCircleSrc} alt="" />
+		{#if shouldShowPowerValue}
+			<span class={powerNumberValueClass}>{power}</span>
+		{/if}
+		{#if shouldShowPowerNumberBorder}
+			<img class="power-number-border" src={powerNumberBorderSrc} alt="" />
+		{/if}
+		{#if shouldShowPowerDetails}
 			<img class="faction-stripe" src={factionStripeSrc} alt="" />
 			{#if displayedRows.length > 0}
 				<div class="row-info-stack">
@@ -152,8 +172,8 @@
 					<img class="ability-info-icon" src={abilitySymbol.symbolPath} alt={abilitySymbol.label} />
 				</div>
 			{/if}
-		</div>
-	{/if}
+		{/if}
+	</div>
 </div>
 
 <style>
@@ -224,12 +244,37 @@
 	}
 
 	.description-text {
-		position: relative;
+		position: absolute;
+		inset: 5px 9px 4px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		overflow: hidden;
+		text-align: center;
 		z-index: 1;
 	}
 
 	.description-text p {
 		margin: 0;
+	}
+
+	.description-name {
+		width: 100%;
+		font-size: 8px;
+		font-weight: 700;
+		line-height: 1;
+	}
+
+	.description-body {
+		width: 100%;
+		margin-top: 3px;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 4;
+		line-clamp: 4;
+		font-size: 6px;
+		line-height: 1.15;
 	}
 
 	.power-number {
@@ -254,11 +299,51 @@
 		left: -15px;
 	}
 
-	.power-number-circle-normal {
+	.power-number-circle-standard {
 		width: 35px;
 		height: 35px;
 		top: -7px;
 		left: -7px;
+	}
+
+	.power-number-circle-leader {
+		width: 50px;
+		height: 50px;
+		top: -15px;
+		left: -15px;
+	}
+
+	.power-number-value {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		font-weight: 700;
+		line-height: 1;
+		text-shadow:
+			0 1px 1px black,
+			1px 0 1px black,
+			0 -1px 1px black,
+			-1px 0 1px black;
+		z-index: 4;
+	}
+
+	.power-number-value-hero,
+	.power-number-value-leader {
+		width: 50px;
+		height: 50px;
+		top: -15px;
+		left: -15px;
+		font-size: 22px;
+	}
+
+	.power-number-value-standard {
+		width: 35px;
+		height: 35px;
+		top: -7px;
+		left: -7px;
+		font-size: 17px;
 	}
 
 	.row-info-stack {

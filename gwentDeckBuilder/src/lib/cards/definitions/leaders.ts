@@ -2,7 +2,7 @@ import type { CardDefinition } from '../types';
 
 export const leaderCards = [
 	{
-		id: 'ml_ldr_eredin_bronze',
+		id: 'mo_eredin_breacc_glas',
 		name: 'Eredin',
 		description: '',
 		faction: 'MO',
@@ -10,6 +10,6 @@ export const leaderCards = [
 		power: null,
 		rows: [],
 		abilities: [],
-		imagePath: 'leaders/monsters/ml_ldr_eredin_bronze.png'
+		imagePath: 'leaders/monsters/nml_ldr_eredin_gold.png'
 	}
 ] satisfies CardDefinition[];
