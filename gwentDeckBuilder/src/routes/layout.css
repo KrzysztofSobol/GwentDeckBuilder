@@ -1,1 +1,9 @@
 @import 'tailwindcss';
+
+@font-face {
+	font-family: 'Gwent ExtraBold';
+	src: url('/fonts/hinted-GWENT-ExtraBold.ttf') format('truetype');
+	font-style: normal;
+	font-weight: 800;
+	font-display: swap;
+}

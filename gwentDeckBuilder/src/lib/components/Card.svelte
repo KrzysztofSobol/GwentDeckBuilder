@@ -128,6 +128,7 @@
 
 				<div class="description-text">
 					<p class="description-name">{name}</p>
+					<span class="description-divider" aria-hidden="true"></span>
 					<p class="description-body">{description}</p>
 				</div>
 			</div>
@@ -245,10 +246,12 @@
 
 	.description-text {
 		position: absolute;
-		inset: 5px 9px 4px;
+		inset: 0 0 0 30px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: center;
+		gap: 3px;
 		overflow: hidden;
 		text-align: center;
 		z-index: 1;
@@ -265,9 +268,23 @@
 		line-height: 1;
 	}
 
+	.description-divider {
+		width: 78%;
+		height: 2px;
+		flex: 0 0 auto;
+		background: linear-gradient(
+			to right,
+			transparent 0%,
+			rgba(0, 0, 0, 0.95) 10%,
+			rgba(0, 0, 0, 0.98) 50%,
+			rgba(0, 0, 0, 0.95) 90%,
+			transparent 100%
+		);
+		clip-path: polygon(0 50%, 10% 22%, 90% 22%, 100% 50%, 90% 78%, 10% 78%);
+	}
+
 	.description-body {
 		width: 100%;
-		margin-top: 3px;
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
@@ -294,7 +311,7 @@
 
 	.power-number-circle-hero {
 		width: 50px;
-		height: 50px;
+		height: auto;
 		top: -15px;
 		left: -15px;
 	}
@@ -318,24 +335,24 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: white;
-		font-weight: 700;
+		font-family: 'Gwent ExtraBold', serif;
 		line-height: 1;
-		text-shadow:
-			0 1px 1px black,
-			1px 0 1px black,
-			0 -1px 1px black,
-			-1px 0 1px black;
 		z-index: 4;
 	}
 
 	.power-number-value-hero,
 	.power-number-value-leader {
 		width: 50px;
-		height: 50px;
+		height: 51px;
 		top: -15px;
 		left: -15px;
-		font-size: 22px;
+		font-size: 25px;
+		color: white;
+		text-shadow:
+			0 1px 1px black,
+			1px 0 1px black,
+			0 -1px 1px black,
+			-1px 0 1px black;
 	}
 
 	.power-number-value-standard {
@@ -343,7 +360,13 @@
 		height: 35px;
 		top: -7px;
 		left: -7px;
-		font-size: 17px;
+		font-size: 25px;
+		color: black;
+		text-shadow:
+			0 1px 1px #808080 ,
+			1px 1px 1px #808080,
+			0 0 1px #808080,
+			0 0 1px #808080;
 	}
 
 	.row-info-stack {

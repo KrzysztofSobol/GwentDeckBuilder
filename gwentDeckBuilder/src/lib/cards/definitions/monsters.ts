@@ -3,7 +3,7 @@ import type { CardDefinition } from '../types';
 export const monsterCards = [
 	{
 		id: 'mo_toad',
-		name: 'Toad',
+		name: 'Toad Prince',
 		description: '',
 		faction: 'MO',
 		type: 'standard',
