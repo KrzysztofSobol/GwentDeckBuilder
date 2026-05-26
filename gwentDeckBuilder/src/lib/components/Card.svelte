@@ -423,7 +423,11 @@
 		left: -15px;
 		font-size: 25px;
 		color: white;
-		text-shadow: 0.7px 0.8px 0.7px rgba(210, 210, 210, 0.8);
+		text-shadow:
+			0 1px 1px black,
+			1px 0 1px black,
+			0 -1px 1px black,
+			-1px 0 1px black;
 	}
 
 	.power-number-value-standard {
