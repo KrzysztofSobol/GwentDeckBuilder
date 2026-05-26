@@ -1,5 +1,6 @@
 import { allCards } from './allCards';
-import type { Ability, CardDefinition, CardType, Faction, Row } from './types';
+import { getCardText } from './text';
+import type { Ability, CardDefinition, CardLanguage, CardType, Faction, Row } from './types';
 
 export const cardsById = new Map<string, CardDefinition>();
 
@@ -31,7 +32,7 @@ export const getCardsByRow = (row: Row) => allCards.filter((card) => card.rows.i
 export const getCardsByAbility = (ability: Ability) =>
 	allCards.filter((card) => card.abilities.includes(ability));
 
-export const searchCards = (query: string) => {
+export const searchCards = (query: string, language: CardLanguage = 'en') => {
 	const normalizedQuery = query.trim().toLowerCase();
 
 	if (!normalizedQuery) {
@@ -39,7 +40,9 @@ export const searchCards = (query: string) => {
 	}
 
 	return allCards.filter((card) => {
-		const searchableText = `${card.name} ${card.description} ${card.id}`.toLowerCase();
+		const text = getCardText(card.id, language);
+		const searchableText =
+			`${text.title} ${text.subtitle} ${text.abilityDescription} ${text.quote} ${card.id}`.toLowerCase();
 		return searchableText.includes(normalizedQuery);
 	});
 };

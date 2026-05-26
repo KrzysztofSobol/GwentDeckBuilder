@@ -1,31 +1,38 @@
 <script lang="ts">
 	import { abilities as abilitySymbols, rows as rowSymbols } from '$lib/cards/metadata';
-	import type { CardDefinition } from '$lib/cards/types';
+	import type { CardDefinition, CardText } from '$lib/cards/types';
 
 	const BASE_PATH = '/resources/cards/';
 	const ELEMENTS_PATH = `${BASE_PATH}elements/`;
+	const FACTION_ICONS_PATH = `${BASE_PATH}icons/faction_icons/`;
 
 	type Faction = 'MO' | 'NIL' | 'NOR' | 'SC' | 'SK';
 	type CardType = 'HERO' | 'STANDARD' | 'LEADER';
 
 	interface Props {
 		card?: CardDefinition;
+		text?: CardText;
 		faction?: string;
 		type?: string;
 		name?: string;
+		subtitle?: string;
 		power?: number | null;
 		imagePath?: string;
 		description?: string;
+		quote?: string;
 	}
 
 	let {
 		card,
+		text,
 		faction = card?.faction ?? 'MO',
 		type = card?.type ?? 'standard',
-		name = card?.name ?? '',
+		name,
+		subtitle,
 		power = card?.power ?? null,
 		imagePath = card?.imagePath ?? '',
-		description = card?.description ?? ''
+		description,
+		quote
 	}: Props = $props();
 
 	const factions: Faction[] = ['MO', 'NIL', 'NOR', 'SC', 'SK'];
@@ -48,6 +55,14 @@
 		SK: `${ELEMENTS_PATH}power_number_premium_SK.png`
 	};
 
+	const factionIcons: Record<Faction, string> = {
+		MO: `${FACTION_ICONS_PATH}mo_icon.png`,
+		NIL: `${FACTION_ICONS_PATH}nil_icon.png`,
+		NOR: `${FACTION_ICONS_PATH}nor_icon.png`,
+		SC: `${FACTION_ICONS_PATH}SC_icon.png`,
+		SK: `${FACTION_ICONS_PATH}SK_icon.png`
+	};
+
 	const normalizeFaction = (value: string): Faction => {
 		const factionKey = value.toUpperCase() as Faction;
 		return factions.includes(factionKey) ? factionKey : 'MO';
@@ -63,6 +78,10 @@
 	};
 
 	const src = $derived(`${BASE_PATH}${imagePath}`);
+	const displayedName = $derived(name ?? text?.title ?? '');
+	const displayedSubtitle = $derived(subtitle ?? text?.subtitle ?? '');
+	const displayedDescription = $derived(description ?? text?.abilityDescription ?? '');
+	const displayedQuote = $derived(quote ?? text?.quote ?? '');
 	const displayedRows = $derived(card?.rows.slice(0, 2) ?? []);
 	const ability = $derived(card?.abilities[0]);
 	const abilitySymbol = $derived(ability ? abilitySymbols[ability] : undefined);
@@ -72,7 +91,7 @@
 	const cardTypeClass = $derived(typeKey.toLowerCase());
 	const shouldShowPowerDetails = $derived(typeKey !== 'LEADER');
 	const shouldShowPowerNumberBorder = $derived(typeKey === 'HERO' || typeKey === 'LEADER');
-	const shouldShowPowerValue = $derived(power !== null);
+	const shouldShowPowerValue = $derived(typeKey !== 'LEADER' && power !== null);
 	const powerNumberCircleSrc = $derived(
 		typeKey === 'HERO' || typeKey === 'LEADER'
 			? premiumPowerNumbers[factionKey]
@@ -85,8 +104,13 @@
 			? `${ELEMENTS_PATH}power_number_border_gold.png`
 			: `${ELEMENTS_PATH}power_number_border_silver.png`
 	);
-	const powerNumberCircleClass = $derived(`power-number-circle power-number-circle-${cardTypeClass}`);
+	const powerNumberCircleClass = $derived(
+		`power-number-circle power-number-circle-${cardTypeClass}`
+	);
 	const powerNumberValueClass = $derived(`power-number-value power-number-value-${cardTypeClass}`);
+	const leaderFactionIconSrc = $derived(factionIcons[factionKey]);
+	const hasAbilityDescription = $derived(displayedDescription.trim().length > 0);
+	const hasQuote = $derived(displayedQuote.trim().length > 0);
 	const factionStripeSrc = $derived(factionStripes[factionKey]);
 	const descriptionBackgroundSrc = $derived(
 		typeKey === 'HERO'
@@ -112,7 +136,7 @@
 		class:card-leader={typeKey === 'LEADER'}
 	>
 		<div class="card-image">
-			<img {src} alt={name} />
+			<img {src} alt={displayedName} />
 		</div>
 
 		<div
@@ -127,9 +151,22 @@
 				<img class="description-background-image" src={descriptionBackgroundSrc} alt="" />
 
 				<div class="description-text">
-					<p class="description-name">{name}</p>
-					<span class="description-divider" aria-hidden="true"></span>
-					<p class="description-body">{description}</p>
+					<p class="description-name">{displayedName}</p>
+					{#if typeKey === 'LEADER' && displayedSubtitle}
+						<p class="description-subtitle">{displayedSubtitle}</p>
+					{/if}
+					{#if hasAbilityDescription || hasQuote}
+						<span class="description-divider" aria-hidden="true"></span>
+					{/if}
+					{#if hasAbilityDescription}
+						<p class="description-ability">{displayedDescription}</p>
+					{/if}
+					{#if hasAbilityDescription && hasQuote}
+						<span class="description-divider" aria-hidden="true"></span>
+					{/if}
+					{#if hasQuote}
+						<p class="description-quote">"{displayedQuote}"</p>
+					{/if}
 				</div>
 			</div>
 		</div>
@@ -137,7 +174,9 @@
 
 	<div class="power-number">
 		<img class={powerNumberCircleClass} src={powerNumberCircleSrc} alt="" />
-		{#if shouldShowPowerValue}
+		{#if typeKey === 'LEADER'}
+			<img class="leader-faction-icon" src={leaderFactionIconSrc} alt="" />
+		{:else if shouldShowPowerValue}
 			<span class={powerNumberValueClass}>{power}</span>
 		{/if}
 		{#if shouldShowPowerNumberBorder}
@@ -215,9 +254,13 @@
 		display: flex;
 		flex-direction: column;
 		font-size: 4px;
-		height: 60px;
+		height: 58px;
 		color: black;
 		overflow: hidden;
+	}
+
+	.card-description-leader {
+		height: 58px;
 	}
 
 	.description-topbar {
@@ -251,10 +294,17 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		gap: 3px;
+		gap: 2px;
+		padding: 3px 4px 4px;
+		box-sizing: border-box;
 		overflow: hidden;
 		text-align: center;
 		z-index: 1;
+	}
+
+	.card-description-leader .description-text {
+		inset-inline-start: 0;
+		padding-inline: 12px;
 	}
 
 	.description-text p {
@@ -263,9 +313,19 @@
 
 	.description-name {
 		width: 100%;
+		font-family: 'Cinzel Card Title', serif;
 		font-size: 8px;
 		font-weight: 700;
+		letter-spacing: 0.025em;
 		line-height: 1;
+	}
+
+	.description-subtitle {
+		width: 100%;
+		font-family: 'Cinzel Card Title', serif;
+		font-size: 6px;
+		font-weight: 400;
+		line-height: 1.05;
 	}
 
 	.description-divider {
@@ -283,14 +343,29 @@
 		clip-path: polygon(0 50%, 10% 22%, 90% 22%, 100% 50%, 90% 78%, 10% 78%);
 	}
 
-	.description-body {
+	.description-ability,
+	.description-quote {
 		width: 100%;
 		overflow: hidden;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 4;
-		line-clamp: 4;
-		font-size: 6px;
+	}
+
+	.description-ability {
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+		font-size: 4px;
+		font-weight: 700;
+		line-height: 1.15;
+	}
+
+	.description-quote {
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		font-family: Georgia, serif;
+		font-size: 3.9px;
+		font-style: italic;
+		font-weight: 400;
 		line-height: 1.15;
 	}
 
@@ -348,11 +423,7 @@
 		left: -15px;
 		font-size: 25px;
 		color: white;
-		text-shadow:
-			0 1px 1px black,
-			1px 0 1px black,
-			0 -1px 1px black,
-			-1px 0 1px black;
+		text-shadow: 0.7px 0.8px 0.7px rgba(210, 210, 210, 0.8);
 	}
 
 	.power-number-value-standard {
@@ -362,11 +433,18 @@
 		left: -7px;
 		font-size: 25px;
 		color: black;
-		text-shadow:
-			0 1px 1px #808080 ,
-			1px 1px 1px #808080,
-			0 0 1px #808080,
-			0 0 1px #808080;
+		text-shadow: 0.7px 0.8px 0.7px rgba(190, 190, 190, 0.8);
+	}
+
+	.leader-faction-icon {
+		position: absolute;
+		top: -7px;
+		left: -7px;
+		width: 34px;
+		height: 34px;
+		max-width: none;
+		object-fit: contain;
+		z-index: 4;
 	}
 
 	.row-info-stack {

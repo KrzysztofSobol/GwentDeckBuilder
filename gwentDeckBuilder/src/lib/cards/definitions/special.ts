@@ -3,8 +3,6 @@ import type { CardDefinition } from '../types';
 export const specialCards = [
 	{
 		id: 'spc_dummy',
-		name: 'Decoy',
-		description: '',
 		faction: null,
 		type: 'standard',
 		power: null,
@@ -14,8 +12,6 @@ export const specialCards = [
 	},
 	{
 		id: 'spc_horn',
-		name: "Commander's Horn",
-		description: '',
 		faction: null,
 		type: 'standard',
 		power: null,
@@ -25,8 +21,6 @@ export const specialCards = [
 	},
 	{
 		id: 'spc_scorch',
-		name: 'Scorch',
-		description: '',
 		faction: null,
 		type: 'standard',
 		power: null,
@@ -36,8 +30,6 @@ export const specialCards = [
 	},
 	{
 		id: 'spc_frost',
-		name: 'Biting Frost',
-		description: '',
 		faction: null,
 		type: 'standard',
 		power: null,
@@ -47,8 +39,6 @@ export const specialCards = [
 	},
 	{
 		id: 'spc_fog',
-		name: 'Impenetrable Fog',
-		description: '',
 		faction: null,
 		type: 'standard',
 		power: null,
@@ -58,8 +48,6 @@ export const specialCards = [
 	},
 	{
 		id: 'spc_rain',
-		name: 'Torrential Rain',
-		description: '',
 		faction: null,
 		type: 'standard',
 		power: null,
@@ -69,8 +57,6 @@ export const specialCards = [
 	},
 	{
 		id: 'spc_skellige_storm',
-		name: 'Skellige Storm',
-		description: '',
 		faction: 'SK',
 		type: 'standard',
 		power: null,
@@ -80,8 +66,6 @@ export const specialCards = [
 	},
 	{
 		id: 'spc_clearsky',
-		name: 'Clear Weather',
-		description: '',
 		faction: null,
 		type: 'standard',
 		power: null,
@@ -91,8 +75,6 @@ export const specialCards = [
 	},
 	{
 		id: 'spc_mushroom',
-		name: 'Mardroeme',
-		description: '',
 		faction: 'SK',
 		type: 'standard',
 		power: null,

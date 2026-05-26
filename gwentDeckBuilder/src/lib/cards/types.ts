@@ -2,6 +2,8 @@ export type Faction = 'MO' | 'NIL' | 'SK' | 'SC' | 'NOR';
 
 export type CardType = 'standard' | 'hero' | 'leader' | 'premium';
 
+export type CardLanguage = 'en' | 'pl';
+
 export type Row = 'close' | 'ranged' | 'siege';
 
 export type Ability =
@@ -11,7 +13,7 @@ export type Ability =
 	| 'morale_boost'
 	| 'muster'
 	| 'tight_bond'
-  | 'scorch'
+	| 'scorch'
 	| 'unit_scorch'
 	| 'spy'
 	| 'summon'
@@ -26,14 +28,19 @@ export type Ability =
 
 export interface CardDefinition {
 	id: string;
-	name: string;
-	description: string;
 	faction: Faction | null;
 	type: CardType;
 	power: number | null;
 	rows: Row[];
 	abilities: Ability[];
 	imagePath: string;
+}
+
+export interface CardText {
+	title: string;
+	subtitle: string;
+	abilityDescription: string;
+	quote: string;
 }
 
 export interface CardSymbolDefinition<TId extends string> {

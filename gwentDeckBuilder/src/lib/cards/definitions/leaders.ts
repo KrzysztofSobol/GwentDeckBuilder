@@ -3,8 +3,6 @@ import type { CardDefinition } from '../types';
 export const leaderCards = [
 	{
 		id: 'mo_eredin_breacc_glas',
-		name: 'Eredin',
-		description: '',
 		faction: 'MO',
 		type: 'leader',
 		power: null,
