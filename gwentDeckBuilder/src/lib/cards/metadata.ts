@@ -44,7 +44,12 @@ export const rows = {
 	siege: {
 		id: 'siege',
 		label: 'Siege combat',
-		symbolPath: `${CARD_SYMBOL_BASE_PATH}620.png`
+		symbolPath: `${CARD_SYMBOL_BASE_PATH}siege.png`
+  },
+  close_ranged: {
+    id: 'close_ranged',
+		label: 'Close and ranged combat',
+		symbolPath: `${CARD_SYMBOL_BASE_PATH}close_and_ranged.png`
 	}
 } satisfies Record<Row, CardSymbolDefinition<Row>>;
 
@@ -52,7 +57,7 @@ export const abilities = {
 	agile: {
 		id: 'agile',
 		label: 'Agile',
-		symbolPath: `${CARD_SYMBOL_BASE_PATH}abilities/agile.png`
+		symbolPath: `${CARD_SYMBOL_BASE_PATH}/agile.png`
 	},
 	commanders_horn: {
 		id: 'commanders_horn',

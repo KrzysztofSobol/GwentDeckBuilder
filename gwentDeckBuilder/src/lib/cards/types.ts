@@ -4,7 +4,7 @@ export type CardType = 'standard' | 'hero' | 'leader' | 'premium';
 
 export type CardLanguage = 'en' | 'pl';
 
-export type Row = 'close' | 'ranged' | 'siege';
+export type Row = 'close' | 'ranged' | 'siege' | 'close_ranged';
 
 export type Ability =
 	| 'agile'
