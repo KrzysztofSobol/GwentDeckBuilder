@@ -245,5 +245,29 @@ export const polishCardText: Partial<Record<CardTextId, Partial<CardText>>> = {
 		subtitle: '',
 		abilityDescription: '',
 		quote: 'Mierzy bezbłędnie między kręgi lub w aortę. Jeden cios i jesteś martwy.'
+  },
+  mo_kayran: {
+   	title: 'Kejran',
+		subtitle: '',
+		abilityDescription: '',
+		quote: '- Ten pień tam, z lewej... On się rusza! - To nie pień. To macka.'
+  },
+  mo_imlerith: {
+   	title: 'Imlerith',
+		subtitle: '',
+		abilityDescription: '',
+		quote: 'Imlerith...? Lepiej od razu się poddajmy.'
+  },
+  mo_draug: {
+   	title: 'Draug',
+		subtitle: '',
+		abilityDescription: '',
+		quote: 'Generał nie pogodził się z przegraną. Zginął, ale walczy dalej.'
+  },
+  mo_leshan: {
+   	title: 'Leszy',
+		subtitle: '',
+		abilityDescription: '',
+		quote: 'W tym lesie się nie poluje. Nigdy. Choćby wieś umierała z głodu.'
   }
 };

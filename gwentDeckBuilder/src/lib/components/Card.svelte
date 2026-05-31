@@ -20,6 +20,7 @@
 		imagePath?: string;
 		description?: string;
 		quote?: string;
+		imageOffset?: number;
 	}
 
 	let {
@@ -32,7 +33,8 @@
 		power = card?.power ?? null,
 		imagePath = card?.imagePath ?? '',
 		description,
-		quote
+		quote,
+		imageOffset = card?.imageOffset ?? 0
 	}: Props = $props();
 
 	const factions: Faction[] = ['MO', 'NIL', 'NOR', 'SC', 'SK'];
@@ -83,8 +85,9 @@
 	const displayedDescription = $derived(description ?? text?.abilityDescription ?? '');
 	const displayedQuote = $derived(quote ?? text?.quote ?? '');
 	const displayedRows = $derived(card?.rows.slice(0, 2) ?? []);
-	const ability = $derived(card?.abilities[0]);
-	const abilitySymbol = $derived(ability ? abilitySymbols[ability] : undefined);
+	const abilitySymbolList = $derived(
+		(card?.abilities ?? []).map((a) => abilitySymbols[a]).filter(Boolean)
+	);
 	const factionKey = $derived(normalizeFaction(faction));
 	const typeKey = $derived(normalizeType(type));
 	const isGoldFaction = $derived(goldFactions.has(factionKey));
@@ -136,7 +139,7 @@
 		class:card-leader={typeKey === 'LEADER'}
 	>
 		<div class="card-image">
-			<img {src} alt={displayedName} />
+			<img {src} alt={displayedName} style="object-position: center {-11 + imageOffset}px" />
 		</div>
 
 		<div
@@ -202,14 +205,18 @@
 					{/each}
 				</div>
 			{/if}
-			{#if abilitySymbol}
-				<div class="ability-info">
-					<img
-						class="ability-info-background"
-						src="/resources/cards/elements/additional_info_silver_2.png"
-						alt=""
-					/>
-					<img class="ability-info-icon" src={abilitySymbol.symbolPath} alt={abilitySymbol.label} />
+			{#if abilitySymbolList.length > 0}
+				<div class="ability-info-stack">
+					{#each abilitySymbolList as symbol}
+						<div class="ability-info">
+							<img
+								class="ability-info-background"
+								src="/resources/cards/elements/additional_info_silver_2.png"
+								alt=""
+							/>
+							<img class="ability-info-icon" src={symbol.symbolPath} alt={symbol.label} />
+						</div>
+					{/each}
 				</div>
 			{/if}
 		{/if}
@@ -245,7 +252,6 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		object-position: center -11px;
 		display: block;
 	}
 
@@ -486,13 +492,20 @@
 		z-index: 1;
 	}
 
-	.ability-info {
+	.ability-info-stack {
 		position: absolute;
-		top: 85px;
+		top: 78px;
 		left: -2.7px;
+		display: flex;
+		flex-direction: column;
+		gap: 1px;
+		z-index: 3;
+	}
+
+	.ability-info {
+		position: relative;
 		width: 26px;
 		height: 26px;
-		z-index: 3;
 	}
 
 	.ability-info-background {

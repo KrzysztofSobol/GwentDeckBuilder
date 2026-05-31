@@ -234,6 +234,30 @@ export const englishCardText = {
 		subtitle: '',
 		abilityDescription: '',
 		quote: ''
+  },
+  mo_kayran: {
+   	title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  mo_imlerith: {
+   	title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  mo_draug: {
+   	title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  mo_leshan: {
+   	title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
   }
 } satisfies Record<string, CardText>;
 

@@ -11,15 +11,6 @@ export const monsterCards = [
 		imagePath: 'standard/monsters/nml_toad.png'
 	},
 	{
-		id: 'mo_geralt',
-		faction: 'MO',
-		type: 'hero',
-		power: 15,
-		rows: ['close'],
-		abilities: ['muster'],
-		imagePath: 'standard/neutral/neu_geralt.png'
-	},
-	{
 		id: 'mo_fire_elemental',
 		faction: 'MO',
 		type: 'standard',
@@ -80,7 +71,8 @@ export const monsterCards = [
     power: 4,
     rows: ['close'],
     abilities: ['muster'],
-    imagePath: 'standard/monsters/nml_arachas.png'
+    imagePath: 'standard/monsters/nml_arachas.png',
+    imageOffset: -18
   },
   {
     id: 'mo_arachas_1',
@@ -89,7 +81,8 @@ export const monsterCards = [
     power: 4,
     rows: ['close'],
     abilities: ['muster'],
-    imagePath: 'standard/monsters/nml_arachas_1.png'
+    imagePath: 'standard/monsters/nml_arachas_1.png',
+    imageOffset: -25
   },
   {
     id: 'mo_arachas_2',
@@ -98,7 +91,8 @@ export const monsterCards = [
     power: 4,
     rows: ['close'],
     abilities: ['muster'],
-    imagePath: 'standard/monsters/nml_arachas_2.png'
+    imagePath: 'standard/monsters/nml_arachas_2.png',
+    imageOffset: -22
   },
   {
     id: 'mo_arachas_behemoth',
@@ -107,7 +101,8 @@ export const monsterCards = [
     power: 6,
     rows: ['siege'],
     abilities: ['muster'],
-    imagePath: 'standard/monsters/nml_arachas_behemoth.png'
+    imagePath: 'standard/monsters/nml_arachas_behemoth.png',
+    imageOffset: -30
   },
   {
     id: 'mo_endrega',
@@ -116,7 +111,8 @@ export const monsterCards = [
     power: 2,
     rows: ['siege'],
     abilities: [],
-    imagePath: 'standard/monsters/nml_endrega.png'
+    imagePath: 'standard/monsters/nml_endrega.png',
+    imageOffset: -23
   },
   {
     id: 'mo_witch_velen',
@@ -342,5 +338,51 @@ export const monsterCards = [
     rows: ['close'],
     abilities: [],
     imagePath: 'standard/monsters/nml_cockatrice.png'
-  }
+  },
+  {
+    id: 'mo_kayran',
+    faction: 'MO',
+    type: 'hero',
+    power: 8,
+    rows: ['close_ranged'],
+    abilities: ['agile', 'morale_boost'],
+    imagePath: 'standard/monsters/nml_kayran.png',
+    imageOffset: -40
+  },
+  {
+    id: 'mo_imlerith',
+    faction: 'MO',
+    type: 'hero',
+    power: 10,
+    rows: ['close'],
+    abilities: [],
+    imagePath: 'standard/monsters/nml_imlerith.png',
+  },
+  {
+    id: 'mo_draug',
+    faction: 'MO',
+    type: 'hero',
+    power: 10,
+    rows: ['close'],
+    abilities: [],
+    imagePath: 'standard/monsters/nml_draug.png'
+  },
+  {
+    id: 'mo_leshan',
+    faction: 'MO',
+    type: 'hero',
+    power: 10,
+    rows: ['ranged'],
+    abilities: [],
+    imagePath: 'standard/monsters/nml_leshan.png'
+  },
+	{
+		id: 'mo_geralt',
+		faction: 'MO',
+		type: 'hero',
+		power: 15,
+		rows: ['close'],
+		abilities: ['muster'],
+		imagePath: 'standard/neutral/neu_geralt.png'
+	},
 ] satisfies CardDefinition[];

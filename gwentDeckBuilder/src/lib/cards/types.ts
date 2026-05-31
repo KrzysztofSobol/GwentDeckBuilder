@@ -34,6 +34,7 @@ export interface CardDefinition {
 	rows: Row[];
 	abilities: Ability[];
 	imagePath: string;
+	imageOffset?: number;
 }
 
 export interface CardText {
