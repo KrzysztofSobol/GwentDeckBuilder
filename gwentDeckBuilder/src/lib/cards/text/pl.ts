@@ -18,12 +18,6 @@ export const polishCardText: Partial<Record<CardTextId, Partial<CardText>>> = {
 		abilityDescription: 'Znajdź w swojej talii albo na ręce kartę Płotka i natychmiast ją zagraj.',
 		quote: 'Jeżeli mam wybierać pomiędzy jednym złem a drugim, to wolę nie wybierać wcale.'
 	},
-	mo_eredin_breacc_glas: {
-		title: 'Eredin Breacc Glas',
-		subtitle: 'Władca Tir Na Lia',
-		abilityDescription: 'Odrzuć 2 karty, a następnie dobierz 1 dowolną kartę ze swojej talii',
-		quote: 'Im byli bliżej, tym piękno tego miejsca silniej chwytało za serce.'
-  },
 	mo_fire_elemental: {
   	title: 'Żywiołak Ognia',
   	subtitle: '',
@@ -269,5 +263,35 @@ export const polishCardText: Partial<Record<CardTextId, Partial<CardText>>> = {
 		subtitle: '',
 		abilityDescription: '',
 		quote: 'W tym lesie się nie poluje. Nigdy. Choćby wieś umierała z głodu.'
+  },
+  mo_eredin_gold: {
+ 	  title: 'Eredin Breacc Glas',
+		subtitle: 'Władca Tir Na Lia',
+		abilityDescription: 'Odrzuć 2 karty, a następnie dobierz 1 dowolną kartę ze swojej talii',
+		quote: 'Im byli bliżej, tym piękno tego miejsca silniej chwytało za serce.'
+  },
+  mo_eredin_platinium: {
+   	title: 'Eredin Breacc Glas',
+		subtitle: 'Zdradziecki',
+		abilityDescription: 'Podwaja siłę wszystkich kart ze zdolnością szpiegostwa (dotyczy obu graczy).',
+		quote: 'Bo się tobą bawię.'
+  },
+  mo_eredin_bronze: {
+   	title: 'Eredin Breacc Glas',
+		subtitle: 'Zabójca Auberona',
+		abilityDescription: 'Przywróć na rękę dowolną kartę ze swojego stosu kart odrzuconych.',
+		quote: 'Czerwoni Jeźdźcy zdołają doścignąć cię nawet w otchłani czasów i miejsc.'
+  },
+  mo_eredin_copper: {
+   	title: 'Eredin Breacc Glas',
+		subtitle: 'Król Dzikiego Gonu',
+		abilityDescription: 'Wybierz kartę pogody ze swojej talii i natychmiast ją zagraj.',
+		quote: 'Va faill, luned.'
+  },
+  mo_eredin_silver: {
+    title: 'Eredin Breacc Glas',
+		subtitle: 'Dowódca Czerwonych Jeźdźców',
+		abilityDescription: 'Podwaja się wszystkich Twoich jednostek (chyba że w ich rzędzie jest karta ze zdolnością rogu dowódcy).',
+		quote: 'Król Gonu śmieje się, kłapią przegniłe zęby nad zardzewiały kołnierzem zbroi.'
   }
 };

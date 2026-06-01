@@ -13,12 +13,6 @@ export const englishCardText = {
 		abilityDescription: '',
 		quote: ''
 	},
-	mo_eredin_breacc_glas: {
-		title: '',
-		subtitle: '',
-		abilityDescription: '',
-		quote: ''
-  },
   mo_fire_elemental: {
    	title: '',
 		subtitle: '',
@@ -254,6 +248,36 @@ export const englishCardText = {
 		quote: ''
   },
   mo_leshan: {
+   	title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  mo_eredin_gold: {
+   	title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  mo_eredin_platinium: {
+   	title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  mo_eredin_bronze: {
+   	title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  mo_eredin_copper: {
+   	title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  mo_eredin_silver: {
    	title: '',
 		subtitle: '',
 		abilityDescription: '',

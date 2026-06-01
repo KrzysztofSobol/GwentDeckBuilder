@@ -2,6 +2,32 @@
 	import { abilities as abilitySymbols, rows as rowSymbols } from '$lib/cards/metadata';
 	import type { CardDefinition, CardText } from '$lib/cards/types';
 
+	let isHovered = $state(false);
+	let rotateX = $state(0);
+	let rotateY = $state(0);
+
+	function handleMouseEnter() {
+		isHovered = true;
+	}
+
+	function handleMouseLeave() {
+		isHovered = false;
+		rotateX = 0;
+		rotateY = 0;
+	}
+
+	function handleMouseMove(e: MouseEvent) {
+		const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+		const x = e.clientX - rect.left;
+		const y = e.clientY - rect.top;
+		rotateY = ((x / rect.width) - 0.5) * 44;
+		rotateX = -((y / rect.height) - 0.5) * 28;
+	}
+
+	const cardTransform = $derived(
+		`perspective(700px) translateY(${isHovered ? -14 : 0}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+	);
+
 	const BASE_PATH = '/resources/cards/';
 	const ELEMENTS_PATH = `${BASE_PATH}elements/`;
 	const FACTION_ICONS_PATH = `${BASE_PATH}icons/faction_icons/`;
@@ -131,7 +157,16 @@
 	);
 </script>
 
-<div class="card-wrap">
+<div
+	class="card-wrap"
+	class:card-wrap--hovered={isHovered}
+	style="transform: {cardTransform}"
+	onmouseenter={handleMouseEnter}
+	onmouseleave={handleMouseLeave}
+	onmousemove={handleMouseMove}
+	role="button"
+	tabindex="0"
+>
 	<div
 		class="card"
 		class:card-standard={typeKey === 'STANDARD'}
@@ -229,6 +264,19 @@
 		position: relative;
 		width: 150px;
 		isolation: isolate;
+		transition:
+			transform 0.35s ease,
+			filter 0.35s ease;
+		will-change: transform;
+		transform-origin: center bottom;
+	}
+
+	.card-wrap--hovered {
+		overflow: visible;
+		transition:
+			transform 0.08s ease,
+			filter 0.08s ease;
+		filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.65));
 	}
 
 	.card {
