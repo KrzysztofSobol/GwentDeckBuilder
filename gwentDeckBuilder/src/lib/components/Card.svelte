@@ -47,6 +47,7 @@
 		description?: string;
 		quote?: string;
 		imageOffset?: number;
+		onclick?: () => void;
 	}
 
 	let {
@@ -60,7 +61,8 @@
 		imagePath = card?.imagePath ?? '',
 		description,
 		quote,
-		imageOffset = card?.imageOffset ?? 0
+		imageOffset = card?.imageOffset ?? 0,
+		onclick
 	}: Props = $props();
 
 	const factions: Faction[] = ['MO', 'NIL', 'NOR', 'SC', 'SK'];
@@ -164,6 +166,8 @@
 	onmouseenter={handleMouseEnter}
 	onmouseleave={handleMouseLeave}
 	onmousemove={handleMouseMove}
+	{onclick}
+	onkeydown={(e) => e.key === 'Enter' && onclick?.()}
 	role="button"
 	tabindex="0"
 >

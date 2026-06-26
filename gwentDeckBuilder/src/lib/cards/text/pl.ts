@@ -210,12 +210,6 @@ export const polishCardText: Partial<Record<CardTextId, Partial<CardText>>> = {
 		abilityDescription: '',
 		quote: 'Chorzy majaczyli o pokrytej liszajami kobiecie otoczonej przez oszalałe szczury...'
   },
-  mo_mighty_maiden: {
-   	title: 'Morowa Dziewica',
-		subtitle: '',
-		abilityDescription: '',
-		quote: 'Chorzy majaczyli o pokrytej liszajami kobiecie otoczonej przez oszalałe szczury...'
-  },
   mo_wyvern: {
    	title: 'Wiwerna',
 		subtitle: '',

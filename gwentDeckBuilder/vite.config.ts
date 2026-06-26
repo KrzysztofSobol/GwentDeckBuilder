@@ -28,5 +28,11 @@ const serveResources = () => ({
 });
 
 export default defineConfig({
-	plugins: [tailwindcss(), sveltekit(), serveResources()]
+	plugins: [tailwindcss(), sveltekit(), serveResources()],
+	server: {
+		port: 6969
+	},
+	preview: {
+		port: 6969
+	}
 });
