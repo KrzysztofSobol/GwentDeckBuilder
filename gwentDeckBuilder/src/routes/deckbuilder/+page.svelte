@@ -26,6 +26,10 @@
 	// Posortowana kopia talii — karty z power od największego, null na końcu.
 	// $derived przelicza się za każdym razem gdy deckCards się zmieni.
 	// [...deckCards] tworzy kopię — nie mutujemy oryginalnej tablicy.
+	// Set dla O(1) lookup — sprawdzamy czy karta jest w talii przy każdym renderze grida.
+	// Gdybyśmy używali deckCards.some() wewnątrz {#each}, byłoby O(n²).
+	const deckCardIds = $derived(new Set(deckCards.map((c) => c.id)));
+
 	const sortedDeckCards = $derived(
 		[...deckCards].sort((a, b) => {
 			if (a.power === null && b.power === null) return 0;
@@ -183,6 +187,7 @@
 				<Card
 					card={item.card}
 					text={item.text}
+					inDeck={deckCardIds.has(item.card.id)}
 					onclick={() => addToDeck(item.card)}
 				/>
 			{/each}

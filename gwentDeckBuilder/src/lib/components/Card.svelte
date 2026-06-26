@@ -48,6 +48,7 @@
 		quote?: string;
 		imageOffset?: number;
 		onclick?: () => void;
+		inDeck?: boolean;
 	}
 
 	let {
@@ -62,8 +63,11 @@
 		description,
 		quote,
 		imageOffset = card?.imageOffset ?? 0,
-		onclick
+		onclick,
+		inDeck = false
 	}: Props = $props();
+
+	const handleClick = $derived(inDeck ? undefined : onclick);
 
 	const factions: Faction[] = ['MO', 'NIL', 'NOR', 'SC', 'SK'];
 	const cardTypes: CardType[] = ['HERO', 'STANDARD', 'LEADER'];
@@ -161,15 +165,17 @@
 
 <div
 	class="card-wrap"
-	class:card-wrap--hovered={isHovered}
-	style="transform: {cardTransform}"
+	class:card-wrap--hovered={isHovered && !inDeck}
+	class:card-wrap--in-deck={inDeck}
+	style="transform: {inDeck ? 'none' : cardTransform}"
 	onmouseenter={handleMouseEnter}
 	onmouseleave={handleMouseLeave}
 	onmousemove={handleMouseMove}
-	{onclick}
-	onkeydown={(e) => e.key === 'Enter' && onclick?.()}
+	onclick={handleClick}
+	onkeydown={(e) => e.key === 'Enter' && handleClick?.()}
 	role="button"
-	tabindex="0"
+	tabindex={inDeck ? -1 : 0}
+	aria-disabled={inDeck}
 >
 	<div
 		class="card"
@@ -281,6 +287,12 @@
 			transform 0.08s ease,
 			filter 0.08s ease;
 		filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.65));
+	}
+
+	.card-wrap--in-deck {
+		cursor: default;
+		filter: grayscale(1) brightness(0.45);
+		transition: filter 0.2s ease;
 	}
 
 	.card {
