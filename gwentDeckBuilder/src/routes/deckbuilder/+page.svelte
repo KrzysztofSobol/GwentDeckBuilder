@@ -1,37 +1,44 @@
 <script lang="ts">
 	import Card from '$lib/components/Card.svelte';
-	import DeckRow from '$lib/components/DeckRow.svelte';
+	import DeckList from '$lib/components/DeckList.svelte';
 	import { allCards } from '$lib/cards/allCards';
 	import { getCardText } from '$lib/cards/text';
 	import type { CardDefinition, CardLanguage, CardText } from '$lib/cards/types';
 
 	const language: CardLanguage = 'en';
 
+	// Osobny stan dla leadera — tylko 1 może być w talii, podmienia się przy wyborze nowego
+	let deckLeader = $state<CardDefinition | null>(null);
 	let deckCards = $state<CardDefinition[]>([]);
 
 	const addToDeck = (card: CardDefinition) => {
-		// push na $state tablicy jest reaktywny — Svelte to wykryje
-		deckCards.push(card);
-	};
-
-	const removeFromDeck = (card: CardDefinition) => {
-		// findIndex zwraca indeks pierwszego wystąpienia karty o danym id
-		const index = deckCards.findIndex((c) => c.id === card.id);
-		if (index !== -1) {
-			// splice usuwa 1 element na pozycji index
-			deckCards.splice(index, 1);
+		if (card.type === 'leader') {
+			deckLeader = card;
+		} else {
+			deckCards.push(card);
 		}
 	};
 
-	// Posortowana kopia talii — karty z power od największego, null na końcu.
-	// $derived przelicza się za każdym razem gdy deckCards się zmieni.
-	// [...deckCards] tworzy kopię — nie mutujemy oryginalnej tablicy.
-	// Set dla O(1) lookup — sprawdzamy czy karta jest w talii przy każdym renderze grida.
-	// Gdybyśmy używali deckCards.some() wewnątrz {#each}, byłoby O(n²).
-	const deckCardIds = $derived(new Set(deckCards.map((c) => c.id)));
+	const removeFromDeck = (card: CardDefinition) => {
+		const index = deckCards.findIndex((c) => c.id === card.id);
+		if (index !== -1) deckCards.splice(index, 1);
+	};
+
+	const removeLeader = () => {
+		deckLeader = null;
+	};
+
+	// Aliasy dla shorthand składni {onRemoveCard} w template
+	const onRemoveCard = removeFromDeck;
+	const onRemoveLeader = removeLeader;
 
 	const isSpecial = (card: CardDefinition) => card.id.startsWith('spc_');
 	const isUnit = (card: CardDefinition) => !isSpecial(card) && card.type !== 'leader';
+
+	// Set zawiera zarówno karty z listy jak i leadera — do grayout w gridzie
+	const deckCardIds = $derived(
+		new Set([...deckCards.map((c) => c.id), ...(deckLeader ? [deckLeader.id] : [])])
+	);
 
 	const deckStats = $derived({
 		units: deckCards.filter(isUnit).length,
@@ -39,13 +46,20 @@
 		totalPower: deckCards.reduce((sum, c) => sum + (c.power ?? 0), 0)
 	});
 
-	const sortedDeckCards = $derived(
-		[...deckCards].sort((a, b) => {
-			if (a.power === null && b.power === null) return 0;
-			if (a.power === null) return 1;
-			if (b.power === null) return -1;
-			return b.power - a.power;
-		})
+	// Posortowane wpisy z rozwiązanymi nazwami — DeckList nie zna getDisplayText
+	const sortedDeckEntries = $derived(
+		[...deckCards]
+			.sort((a, b) => {
+				if (a.power === null && b.power === null) return 0;
+				if (a.power === null) return 1;
+				if (b.power === null) return -1;
+				return b.power - a.power;
+			})
+			.map((card) => ({ card, name: getDisplayText(card.id).title }))
+	);
+
+	const leaderEntry = $derived(
+		deckLeader ? { card: deckLeader, name: getDisplayText(deckLeader.id).title } : null
 	);
 
 	type SortMode = 'original' | 'ascending' | 'descending';
@@ -171,21 +185,12 @@
 			</div>
 		</header>
 
-		<ul class="deck-list">
-			{#each sortedDeckCards as card (card.id)}
-				<li>
-					<DeckRow
-					{card}
-					name={getDisplayText(card.id).title}
-					onclick={() => removeFromDeck(card)}
-				/>
-				</li>
-			{/each}
-
-			{#if sortedDeckCards.length === 0}
-				<li class="deck-empty">No cards yet</li>
-			{/if}
-		</ul>
+		<DeckList
+			entries={sortedDeckEntries}
+			leader={leaderEntry}
+			{onRemoveCard}
+			{onRemoveLeader}
+		/>
 	</aside>
 
 	<section class="cards-column" aria-label="Cards">
@@ -318,59 +323,6 @@
 		align-self: center;
 	}
 
-	.deck-list {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		/* padding-right zostawia miejsce na scrollbar bez przesuwania kart */
-		padding-right: 4px;
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
-		/* flex: 1 wypełnia całą dostępną przestrzeń pod headerem */
-		flex: 1 1 auto;
-		min-height: 0;
-		overflow-x: hidden;
-		overflow-y: auto;
-		scrollbar-gutter: stable;
-		scrollbar-color: #3a2818 #6f542d;
-		scrollbar-width: thin;
-	}
-
-	.deck-list::-webkit-scrollbar {
-		width: 14px;
-	}
-
-	.deck-list::-webkit-scrollbar-track {
-		border: 1px solid rgba(214, 173, 97, 0.5);
-		border-radius: 6px;
-		background: #6f542d;
-	}
-
-	.deck-list::-webkit-scrollbar-thumb {
-		border: 2px solid rgba(230, 195, 122, 0.78);
-		border-radius: 6px;
-		background: #3a2818;
-	}
-
-	.deck-list::-webkit-scrollbar-thumb:hover {
-		background: #4a321d;
-	}
-
-	.deck-list li {
-		display: flex;
-	}
-
-	.deck-empty {
-		font-family: 'Cinzel Card Title', Georgia, serif;
-		font-size: 0.65rem;
-		color: rgba(220, 196, 146, 0.35);
-		text-align: center;
-		padding: 16px 0;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		justify-content: center;
-	}
 
 	.cards-column {
 		display: flex;
