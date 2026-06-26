@@ -30,6 +30,15 @@
 	// Gdybyśmy używali deckCards.some() wewnątrz {#each}, byłoby O(n²).
 	const deckCardIds = $derived(new Set(deckCards.map((c) => c.id)));
 
+	const isSpecial = (card: CardDefinition) => card.id.startsWith('spc_');
+	const isUnit = (card: CardDefinition) => !isSpecial(card) && card.type !== 'leader';
+
+	const deckStats = $derived({
+		units: deckCards.filter(isUnit).length,
+		special: deckCards.filter(isSpecial).length,
+		totalPower: deckCards.reduce((sum, c) => sum + (c.power ?? 0), 0)
+	});
+
 	const sortedDeckCards = $derived(
 		[...deckCards].sort((a, b) => {
 			if (a.power === null && b.power === null) return 0;
@@ -146,8 +155,20 @@
 
 	<aside class="deck-column" aria-label="Deck view">
 		<header class="deck-header">
-			<h2>Deck</h2>
-			<span class="deck-count">{deckCards.length}</span>
+			<div class="deck-stat" title="Units">
+				<span class="deck-stat__value">{deckStats.units}</span>
+				<span class="deck-stat__label">Units</span>
+			</div>
+			<span class="deck-stat-divider" aria-hidden="true">|</span>
+			<div class="deck-stat" title="Special cards">
+				<span class="deck-stat__value">{deckStats.special}</span>
+				<span class="deck-stat__label">Special</span>
+			</div>
+			<span class="deck-stat-divider" aria-hidden="true">|</span>
+			<div class="deck-stat" title="Total power">
+				<span class="deck-stat__value">{deckStats.totalPower}</span>
+				<span class="deck-stat__label">Power</span>
+			</div>
 		</header>
 
 		<ul class="deck-list">
@@ -214,7 +235,7 @@
 	}
 
 	.deckbuilder-page {
-		--deck-column-width: clamp(220px, 18vw, 300px);
+		--deck-column-width: clamp(240px, 20vw, 320px);
 		--filters-column-width: clamp(200px, 16vw, 280px);
 
 		display: grid;
@@ -238,7 +259,13 @@
 		box-shadow: inset 0 0 0 1px rgba(255, 234, 176, 0.05);
 	}
 
-	.deck-column,
+	.deck-column {
+		display: flex;
+		flex-direction: column;
+		padding: 16px;
+		overflow: hidden;
+	}
+
 	.filters-column {
 		padding: 16px;
 		overflow: auto;
@@ -256,22 +283,78 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		gap: 4px;
 		margin-bottom: 12px;
+		padding-bottom: 10px;
+		border-bottom: 1px solid rgba(188, 145, 75, 0.25);
 	}
 
-	.deck-count {
+	.deck-stat {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 2px;
+		flex: 1;
+	}
+
+	.deck-stat__value {
+		font-family: 'Gwent ExtraBold', Georgia, serif;
+		font-size: 1.1rem;
+		line-height: 1;
+		color: #f1ddb1;
+	}
+
+	.deck-stat__label {
 		font-family: 'Cinzel Card Title', Georgia, serif;
-		font-size: 0.72rem;
-		color: rgba(220, 196, 146, 0.6);
+		font-size: 0.52rem;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: rgba(220, 196, 146, 0.5);
+	}
+
+	.deck-stat-divider {
+		color: rgba(188, 145, 75, 0.35);
+		font-size: 0.9rem;
+		align-self: center;
 	}
 
 	.deck-list {
 		list-style: none;
 		margin: 0;
 		padding: 0;
+		/* padding-right zostawia miejsce na scrollbar bez przesuwania kart */
+		padding-right: 4px;
 		display: flex;
 		flex-direction: column;
 		gap: 4px;
+		/* flex: 1 wypełnia całą dostępną przestrzeń pod headerem */
+		flex: 1 1 auto;
+		min-height: 0;
+		overflow-x: hidden;
+		overflow-y: auto;
+		scrollbar-gutter: stable;
+		scrollbar-color: #3a2818 #6f542d;
+		scrollbar-width: thin;
+	}
+
+	.deck-list::-webkit-scrollbar {
+		width: 14px;
+	}
+
+	.deck-list::-webkit-scrollbar-track {
+		border: 1px solid rgba(214, 173, 97, 0.5);
+		border-radius: 6px;
+		background: #6f542d;
+	}
+
+	.deck-list::-webkit-scrollbar-thumb {
+		border: 2px solid rgba(230, 195, 122, 0.78);
+		border-radius: 6px;
+		background: #3a2818;
+	}
+
+	.deck-list::-webkit-scrollbar-thumb:hover {
+		background: #4a321d;
 	}
 
 	.deck-list li {
@@ -424,7 +507,7 @@
 
 	@media (max-width: 1100px) {
 		.deckbuilder-page {
-			--deck-column-width: 210px;
+			--deck-column-width: 230px;
 			--filters-column-width: 190px;
 			gap: 12px;
 			padding: 12px;

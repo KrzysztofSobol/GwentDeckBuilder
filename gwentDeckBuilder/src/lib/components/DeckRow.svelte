@@ -12,6 +12,7 @@
 	let { card, name, onclick }: Props = $props();
 
 	const imageSrc = $derived(`/resources/cards/${card.imagePath}`);
+	const displayName = $derived(name.length > 20 ? name.slice(0, 20).trimEnd() + '…' : name);
 </script>
 
 <div
@@ -25,7 +26,7 @@
 	{#if card.power !== null}
 		<span class="deck-row__power">{card.power}</span>
 	{/if}
-	<span class="deck-row__name">{name}</span>
+	<span class="deck-row__name">{displayName}</span>
 </div>
 
 <style>
