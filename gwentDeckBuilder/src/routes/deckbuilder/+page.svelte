@@ -239,6 +239,11 @@
 		box-sizing: border-box;
 	}
 
+	:global(img) {
+		user-select: none;
+		-webkit-user-drag: none;
+	}
+
 	.deckbuilder-page {
 		--deck-column-width: clamp(240px, 20vw, 320px);
 		--filters-column-width: clamp(200px, 16vw, 280px);
