@@ -282,7 +282,61 @@ export const englishCardText = {
 		subtitle: '',
 		abilityDescription: '',
 		quote: ''
-  }
+  },
+  spc_dummy: {
+		title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  spc_horn: {
+		title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  spc_scorch: {
+		title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  spc_frost: {
+		title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  spc_fog: {
+		title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  spc_rain: {
+		title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  spc_skellige_storm: {
+		title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  spc_clearsky: {
+		title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  spc_mushroom: {
+		title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
 } satisfies Record<string, CardText>;
 
 export type CardTextId = keyof typeof englishCardText;

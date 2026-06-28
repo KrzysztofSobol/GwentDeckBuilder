@@ -1,6 +1,7 @@
 import type { CardDefinition } from '../types';
 
 export const specialCards = [
+  // ### MO ###
 	{
 		id: 'spc_dummy',
 		faction: null,
@@ -83,7 +84,7 @@ export const specialCards = [
 	},
 	{
 		id: 'spc_mushroom',
-		faction: null,
+		faction: 'SK',
 		type: 'standard',
 		power: null,
 		rows: [],

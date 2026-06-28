@@ -287,5 +287,59 @@ export const polishCardText: Partial<Record<CardTextId, Partial<CardText>>> = {
 		subtitle: 'Dowódca Czerwonych Jeźdźców',
 		abilityDescription: 'Podwaja się wszystkich Twoich jednostek (chyba że w ich rzędzie jest karta ze zdolnością rogu dowódcy).',
 		quote: 'Król Gonu śmieje się, kłapią przegniłe zęby nad zardzewiały kołnierzem zbroi.'
-  }
+  },
+  spc_dummy: {
+    title: 'Manekin do Ćwiczeń',
+		subtitle: '',
+		abilityDescription: '',
+		quote: 'Niespodzianka, skurwysyny!'
+  },
+  spc_horn: {
+		title: 'Róg dowódcy',
+		subtitle: '',
+		abilityDescription: '',
+		quote: 'Do atakuuuuu!!!'
+  },
+  spc_scorch: {
+		title: 'Pożoga',
+		subtitle: '',
+		abilityDescription: '',
+		quote: 'Że też zawsze musi jebnąć tam, gdzie najbardziej boli!'
+  },
+  spc_frost: {
+		title: 'Tezaskający mróz',
+		subtitle: '',
+		abilityDescription: '',
+		quote: 'Tak mi palce zgrabiały, że ledwie miecz trzymam... A tu jeszcze machać trzeba.'
+  },
+  spc_fog: {
+		title: 'Gęsta mgła',
+		subtitle: '',
+		abilityDescription: '',
+		quote: 'Mgła, że oko wykol... Cokolwiek to znaczy.'
+  },
+  spc_rain: {
+		title: 'Ulewny deszcz',
+		subtitle: '',
+		abilityDescription: '',
+		quote: '- Wieża oblężnicza uktnęła w błocie! - Widzę, idioto. Trąb na odwrót.'
+  },
+  spc_skellige_storm: {
+		title: 'Skelligijski sztorm',
+		subtitle: '',
+		abilityDescription: '',
+		quote: 'To nie jest zwykła burza. To gniew bogów.'
+  },
+  spc_clearsky: {
+		title: 'Czyste niebo',
+		subtitle: '',
+		abilityDescription: '',
+		quote: 'Piękny dzień, żeby umrzeć.'
+  },
+  spc_mushroom: {
+		title: 'Mardroeme',
+		subtitle: '',
+		abilityDescription: '',
+		quote: 'Zjedz ich odpowiednio dużo, a świat już nigdy nie będzie taki sam...'
+  },
 };
