@@ -70,7 +70,7 @@
 
 	type SortMode = 'original' | 'ascending' | 'descending';
 	type FactionFilter = 'all' | 'MO' | 'NIL' | 'NOR' | 'SC' | 'SK';
-	type TypeFilter = 'all' | 'unit' | 'special' | 'leader';
+	type TypeFilter = 'all' | 'unit' | 'special' | 'hero' | 'leader';
 
 	let searchTerm = $state('');
 	let sortMode = $state<SortMode>('original');
@@ -90,6 +90,7 @@
 		{ value: 'all', label: 'All' },
 		{ value: 'unit', label: 'Unit' },
 		{ value: 'special', label: 'Special' },
+		{ value: 'hero', label: 'Hero' },
 		{ value: 'leader', label: 'Leader' }
 	];
 
@@ -162,7 +163,8 @@
 		cardItems.filter(({ card, text }) => {
 			if (!text.title.toLowerCase().includes(normalizedSearchTerm)) return false;
 			if (factionFilter !== 'all' && card.faction !== factionFilter) return false;
-			if (typeFilter === 'unit' && (isSpecial(card) || card.type === 'leader')) return false;
+			if (typeFilter === 'unit' && (isSpecial(card) || card.type === 'leader' || card.type === 'hero')) return false;
+			if (typeFilter === 'hero' && card.type !== 'hero') return false;
 			if (typeFilter === 'special' && !isSpecial(card)) return false;
 			if (typeFilter === 'leader' && card.type !== 'leader') return false;
 			return true;

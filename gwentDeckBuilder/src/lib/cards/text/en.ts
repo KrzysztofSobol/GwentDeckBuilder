@@ -7,12 +7,6 @@ export const englishCardText = {
 		abilityDescription: '',
 		quote: ''
 	},
-	mo_geralt: {
-		title: '',
-		subtitle: '',
-		abilityDescription: '',
-		quote: ''
-	},
   mo_fire_elemental: {
    	title: '',
 		subtitle: '',
@@ -44,6 +38,12 @@ export const englishCardText = {
 		quote: ''
   },
   mo_katakan: {
+   	title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+  },
+  mo_fleder: {
    	title: '',
 		subtitle: '',
 		abilityDescription: '',
@@ -336,6 +336,36 @@ export const englishCardText = {
 		subtitle: '',
 		abilityDescription: '',
 		quote: ''
+  },
+	geralt: {
+		title: '',
+		subtitle: '',
+		abilityDescription: '',
+		quote: ''
+	},
+  ciri: {
+  	title: '',
+  	subtitle: '',
+  	abilityDescription: '',
+  	quote: ''
+  },
+  triss: {
+   	title: '',
+   	subtitle: '',
+   	abilityDescription: '',
+   	quote: ''
+  },
+  yen: {
+   	title: '',
+   	subtitle: '',
+   	abilityDescription: '',
+   	quote: ''
+  },
+  avallach: {
+   	title: '',
+   	subtitle: '',
+   	abilityDescription: '',
+   	quote: ''
   },
 } satisfies Record<string, CardText>;
 

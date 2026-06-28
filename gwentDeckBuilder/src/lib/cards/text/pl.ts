@@ -12,12 +12,6 @@ export const polishCardText: Partial<Record<CardTextId, Partial<CardText>>> = {
 		abilityDescription: '',
 		quote: 'Czy pocałunek go odczaruje?\n Nie wiem, nikt nie próbował'
 	},
-	mo_geralt: {
-		title: 'Geralt z rivii',
-		subtitle: '',
-		abilityDescription: 'Znajdź w swojej talii albo na ręce kartę Płotka i natychmiast ją zagraj.',
-		quote: 'Jeżeli mam wybierać pomiędzy jednym złem a drugim, to wolę nie wybierać wcale.'
-	},
 	mo_fire_elemental: {
   	title: 'Żywiołak Ognia',
   	subtitle: '',
@@ -53,6 +47,12 @@ export const polishCardText: Partial<Record<CardTextId, Partial<CardText>>> = {
 		subtitle: '',
 		abilityDescription: getAllCardsByType('karty wampirów'),
 		quote: 'Melitele, Matko, uchroń nas ode złego, nade wszystko zaś od szponów katakana.'
+  },
+  mo_fleder: {
+   	title: 'Wampiry: Fleder',
+		subtitle: '',
+		abilityDescription: getAllCardsByType('karty wampirów'),
+		quote: 'Łysa głowa, szpiczaste uszy, skóra pokryta brodawkami... Przystojniaczek.'
   },
   mo_arachas: {
     title: 'Krabopająk',
@@ -341,5 +341,35 @@ export const polishCardText: Partial<Record<CardTextId, Partial<CardText>>> = {
 		subtitle: '',
 		abilityDescription: '',
 		quote: 'Zjedz ich odpowiednio dużo, a świat już nigdy nie będzie taki sam...'
+  },
+	geralt: {
+		title: 'Geralt z rivii',
+		subtitle: '',
+		abilityDescription: 'Znajdź w swojej talii albo na ręce kartę Płotka i natychmiast ją zagraj.',
+		quote: 'Jeżeli mam wybierać pomiędzy jednym złem a drugim, to wolę nie wybierać wcale.'
+	},
+  ciri: {
+  	title: 'Cirilla',
+  	subtitle: '',
+  	abilityDescription: 'Znajdź w swojej talii albo na ręce kartę Płotka i natychmiast ją zagraj.',
+  	quote: 'Wiesz, kiedy bajki przestają być bajkami? Kiedy ludzie zaczynają w nie wierzyć.'
+  },
+  triss: {
+   	title: 'Triss Merigold',
+   	subtitle: '',
+   	abilityDescription: '',
+   	quote: 'Potrafię o siebie zadbać. Wierz mi.'
+  },
+  yen: {
+   	title: 'Yennefer z Vengerbergu',
+   	subtitle: '',
+   	abilityDescription: '',
+   	quote: 'Odziana w kompozycję czerni i bieli, przywodziła na myśl grudniowy poranek.'
+  },
+  avallach: {
+   	title: 'Avallac\'h',
+   	subtitle: '',
+   	abilityDescription: '',
+   	quote: 'Nie zwykłem żartować.'
   },
 };

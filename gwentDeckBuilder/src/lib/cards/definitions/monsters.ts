@@ -56,6 +56,15 @@ export const monsterCards = [
     imagePath: 'standard/monsters/nml_ekkima.png'
   },
   {
+    id: 'mo_fleder',
+    faction: 'MO',
+    type: 'standard',
+    power: 4,
+    rows: ['close'],
+    abilities: ['muster'],
+    imagePath: 'standard/monsters/nml_fleder.png'
+  },
+  {
     id: 'mo_katakan',
     faction: 'MO',
     type: 'standard',
@@ -375,14 +384,5 @@ export const monsterCards = [
     rows: ['ranged'],
     abilities: [],
     imagePath: 'standard/monsters/nml_leshan.png'
-  },
-	{
-		id: 'mo_geralt',
-		faction: 'MO',
-		type: 'hero',
-		power: 15,
-		rows: ['close'],
-		abilities: ['muster'],
-		imagePath: 'standard/neutral/neu_geralt.png'
-	},
+  }
 ] satisfies CardDefinition[];

@@ -6,13 +6,15 @@ import { northernRealmsCards } from './definitions/northernRealms';
 import { scoiataelCards } from './definitions/scoiatael';
 import { skelligeCards } from './definitions/skellige';
 import { specialCards } from './definitions/special';
+import { neutralCards } from './definitions/neutral';
 
 export const allCards: CardDefinition[] = [
 	...monsterCards,
 	...nilfgaardCards,
 	...northernRealmsCards,
 	...scoiataelCards,
-	...skelligeCards,
+  ...skelligeCards,
+	...neutralCards,
 	...specialCards,
 	...leaderCards
 ];
