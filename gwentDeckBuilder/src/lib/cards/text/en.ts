@@ -367,6 +367,12 @@ export const englishCardText = {
    	abilityDescription: '',
    	quote: ''
   },
+  villen: {
+   	title: '',
+   	subtitle: '',
+   	abilityDescription: '',
+   	quote: ''
+  },
 } satisfies Record<string, CardText>;
 
 export type CardTextId = keyof typeof englishCardText;

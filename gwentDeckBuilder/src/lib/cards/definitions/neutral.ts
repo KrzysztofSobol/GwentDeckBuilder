@@ -46,5 +46,23 @@ export const neutralCards = [
   	rows: ['close'],
   	abilities: ['spy'],
   	imagePath: 'standard/neutral/neu_avallach.png'
+  },
+  {
+   	id: 'villen',
+   	faction: null,
+   	type: 'standard',
+   	power: 7,
+   	rows: ['close'],
+   	abilities: ['unit_scorch'],
+   	imagePath: 'standard/neutral/neu_villen.png'
+  },
+  {
+   	id: 'olgierd',
+   	faction: null,
+   	type: 'standard',
+   	power: 6,
+   	rows: ['close_ranged'],
+   	abilities: ['agile', 'medic'],
+   	imagePath: 'standard/neutral/neu_olgierd.png'
   }
 ] satisfies CardDefinition[];

@@ -19,10 +19,10 @@ export const polishCardText: Partial<Record<CardTextId, Partial<CardText>>> = {
   	quote: 'No, teraz to się robi gorąco.'
   },
   mo_fiend: {
-   	title: 'Bydlęce Siły Zbrojne',
+   	title: 'Bies',
 		subtitle: '',
-		abilityDescription: 'Ta karta nie może znajdować się w talii na początku rozgrywki. Nie można jej przywrócić za poocą zdolności wskrzeszenia.',
-		quote: 'Grrrrr!'
+		abilityDescription: '',
+		quote: 'Bies wygląda trochę jak jeleń. Wielki, wkurwiony jeleń.'
   },
   mo_bruxa: {
    	title: 'Wampiry: Bruxa',
@@ -371,5 +371,17 @@ export const polishCardText: Partial<Record<CardTextId, Partial<CardText>>> = {
    	subtitle: '',
    	abilityDescription: '',
    	quote: 'Nie zwykłem żartować.'
+  },
+  neu_czart: {
+   	title: 'Bydlęce Siły Zbrojne',
+		subtitle: '',
+		abilityDescription: 'Ta karta nie może znajdować się w talii na początku rozgrywki. Nie można jej przywrócić za poocą zdolności wskrzeszenia.',
+		quote: 'Grrrrr!'
+  },
+  villen: {
+   	title: 'Villentretenmerth',
+   	subtitle: '',
+   	abilityDescription: '',
+   	quote: 'Było w tym stworzeniu coś pełnego niewysłowionej gracji.'
   },
 };

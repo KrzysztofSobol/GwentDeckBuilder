@@ -20,15 +20,6 @@ export const monsterCards = [
 		imagePath: 'standard/monsters/nml_fire_elemental.png'
   },
   {
-    id: 'mo_fiend',
-    faction: 'MO',
-    type: 'standard',
-    power: 8,
-    rows: ['close'],
-    abilities: [],
-    imagePath: 'standard/monsters/nml_fiend.png'
-  },
-  {
     id: 'mo_bruxa',
     faction: 'MO',
     type: 'standard',
@@ -347,6 +338,15 @@ export const monsterCards = [
     rows: ['close'],
     abilities: [],
     imagePath: 'standard/monsters/nml_cockatrice.png'
+  },
+  {
+    id: 'mo_fiend',
+    faction: 'MO',
+    type: 'standard',
+    power: 6,
+    rows: ['close'],
+    abilities: [],
+    imagePath: 'standard/monsters/nml_fiend.png'
   },
   {
     id: 'mo_kayran',
