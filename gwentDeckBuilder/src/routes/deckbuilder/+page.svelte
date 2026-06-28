@@ -7,7 +7,7 @@
 
 	const language: CardLanguage = 'en';
 
-	// Osobny stan dla leadera — tylko 1 może być w talii, podmienia się przy wyborze nowego
+	// there can only be 1 leader in the deck, its a bit of seperate thing
 	let deckLeader = $state<CardDefinition | null>(null);
 	let deckCards = $state<CardDefinition[]>([]);
 
@@ -28,14 +28,12 @@
 		deckLeader = null;
 	};
 
-	// Aliasy dla shorthand składni {onRemoveCard} w template
 	const onRemoveCard = removeFromDeck;
 	const onRemoveLeader = removeLeader;
 
 	const isSpecial = (card: CardDefinition) => card.id.startsWith('spc_');
 	const isUnit = (card: CardDefinition) => !isSpecial(card) && card.type !== 'leader';
 
-	// Set zawiera zarówno karty z listy jak i leadera — do grayout w gridzie
 	const deckCardIds = $derived(
 		new Set([...deckCards.map((c) => c.id), ...(deckLeader ? [deckLeader.id] : [])])
 	);
@@ -46,7 +44,6 @@
 		totalPower: deckCards.reduce((sum, c) => sum + (c.power ?? 0), 0)
 	});
 
-	// Posortowane wpisy z rozwiązanymi nazwami — DeckList nie zna getDisplayText
 	const sortedDeckEntries = $derived(
 		[...deckCards]
 			.sort((a, b) => {
@@ -309,14 +306,14 @@
 
 	.deck-stat__value {
 		font-family: 'Gwent ExtraBold', Georgia, serif;
-		font-size: 1.1rem;
+		font-size: 1.5rem;
 		line-height: 1;
 		color: #f1ddb1;
 	}
 
 	.deck-stat__label {
 		font-family: 'Cinzel Card Title', Georgia, serif;
-		font-size: 0.52rem;
+		font-size: 0.70rem;
 		text-transform: uppercase;
 		letter-spacing: 0.06em;
 		color: rgba(220, 196, 146, 0.5);
