@@ -44,6 +44,7 @@
 		subtitle?: string;
 		power?: number | null;
 		imagePath?: string;
+		symbolPath?: string;
 		description?: string;
 		quote?: string;
 		imageOffset?: number;
@@ -60,6 +61,7 @@
 		subtitle,
 		power = card?.power ?? null,
 		imagePath = card?.imagePath ?? '',
+		symbolPath = card?.symbolPath,
 		description,
 		quote,
 		imageOffset = card?.imageOffset ?? 0,
@@ -224,6 +226,8 @@
 		<img class={powerNumberCircleClass} src={powerNumberCircleSrc} alt="" />
 		{#if typeKey === 'LEADER'}
 			<img class="leader-faction-icon" src={leaderFactionIconSrc} alt="" />
+		{:else if symbolPath}
+			<img class="power-symbol-icon" src={symbolPath} alt="" />
 		{:else if shouldShowPowerValue}
 			<span class={powerNumberValueClass}>{power}</span>
 		{/if}
@@ -516,6 +520,17 @@
 		left: -7px;
 		width: 34px;
 		height: 34px;
+		max-width: none;
+		object-fit: contain;
+		z-index: 4;
+	}
+
+	.power-symbol-icon {
+		position: absolute;
+		top: -5px;
+		left: -5px;
+		width: 30px;
+		height: 30px;
 		max-width: none;
 		object-fit: contain;
 		z-index: 4;

@@ -7,8 +7,9 @@ export const specialCards = [
 		type: 'standard',
 		power: null,
 		rows: [],
-		abilities: ['decoy'],
-		imagePath: 'standard/weather/spc_dummy.png'
+		abilities: [],
+    imagePath: 'standard/weather/spc_dummy.png',
+    symbolPath: 'resources/cards/icons/decoy.png'
 	},
 	{
 		id: 'spc_horn',
@@ -16,8 +17,9 @@ export const specialCards = [
 		type: 'standard',
 		power: null,
 		rows: [],
-		abilities: ['commanders_horn'],
-		imagePath: 'standard/weather/spc_horn.png'
+		abilities: [],
+    imagePath: 'standard/weather/spc_horn.png',
+		symbolPath: 'resources/cards/icons/commanders_horn.png'
 	},
 	{
 		id: 'spc_scorch',
@@ -25,44 +27,49 @@ export const specialCards = [
 		type: 'standard',
 		power: null,
 		rows: [],
-		abilities: ['scorch'],
-		imagePath: 'standard/weather/spc_scorch.png'
+		abilities: [],
+    imagePath: 'standard/weather/spc_scorch.png',
+		symbolPath: 'resources/cards/icons/scorch.png'
 	},
 	{
 		id: 'spc_frost',
 		faction: null,
 		type: 'standard',
 		power: null,
-		rows: [],
-		abilities: ['biting_frost'],
-		imagePath: 'standard/weather/spc_frost.png'
+		rows: ['close'],
+		abilities: [],
+		imagePath: 'standard/weather/spc_frost.png',
+		symbolPath: 'resources/cards/icons/biting_frost.png'
 	},
 	{
 		id: 'spc_fog',
 		faction: null,
 		type: 'standard',
 		power: null,
-		rows: [],
-		abilities: ['impenetrable_fog'],
-		imagePath: 'standard/weather/spc_fog.png'
+		rows: ['ranged'],
+		abilities: [],
+		imagePath: 'standard/weather/spc_fog.png',
+		symbolPath: 'resources/cards/icons/impenetrable_fog.png'
 	},
 	{
 		id: 'spc_rain',
 		faction: null,
 		type: 'standard',
 		power: null,
-		rows: [],
-		abilities: ['torrential_rain'],
-		imagePath: 'standard/weather/spc_rain.png'
+		rows: ['siege'],
+		abilities: [],
+		imagePath: 'standard/weather/spc_rain.png',
+		symbolPath: 'resources/cards/icons/torrential_rain.png'
 	},
 	{
 		id: 'spc_skellige_storm',
-		faction: 'SK',
+		faction: null,
 		type: 'standard',
 		power: null,
-		rows: [],
-		abilities: ['skellige_storm'],
-		imagePath: 'standard/skellige/spc_skellige_storm.png'
+		rows: ['ranged', 'siege'],
+		abilities: [],
+		imagePath: 'standard/skellige/spc_skellige_storm.png',
+		symbolPath: 'resources/cards/icons/skellige_storm.png'
 	},
 	{
 		id: 'spc_clearsky',
@@ -70,16 +77,18 @@ export const specialCards = [
 		type: 'standard',
 		power: null,
 		rows: [],
-		abilities: ['clear_weather'],
-		imagePath: 'standard/weather/spc_clearsky.png'
+		abilities: [],
+		imagePath: 'standard/weather/spc_clearsky.png',
+		symbolPath: 'resources/cards/icons/clear_weather.png'
 	},
 	{
 		id: 'spc_mushroom',
-		faction: 'SK',
+		faction: null,
 		type: 'standard',
 		power: null,
 		rows: [],
-		abilities: ['mardroeme'],
-		imagePath: 'standard/weather/spc_mushroom.png'
+		abilities: [],
+		imagePath: 'standard/weather/spc_mushroom.png',
+		symbolPath: 'resources/cards/icons/mardroeme.png'
 	}
 ] satisfies CardDefinition[];

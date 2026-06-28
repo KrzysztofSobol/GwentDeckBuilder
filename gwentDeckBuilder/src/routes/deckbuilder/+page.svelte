@@ -60,9 +60,29 @@
 	);
 
 	type SortMode = 'original' | 'ascending' | 'descending';
+	type FactionFilter = 'all' | 'MO' | 'NIL' | 'NOR' | 'SC' | 'SK';
+	type TypeFilter = 'all' | 'unit' | 'special' | 'leader';
 
 	let searchTerm = $state('');
 	let sortMode = $state<SortMode>('original');
+	let factionFilter = $state<FactionFilter>('all');
+	let typeFilter = $state<TypeFilter>('all');
+
+	const factionFilterOptions: { value: FactionFilter; label: string }[] = [
+		{ value: 'all', label: 'All' },
+		{ value: 'MO', label: 'Monsters' },
+		{ value: 'NIL', label: 'Nilfgaard' },
+		{ value: 'NOR', label: 'Northern Realms' },
+		{ value: 'SC', label: "Scoia'tael" },
+		{ value: 'SK', label: 'Skellige' }
+	];
+
+	const typeFilterOptions: { value: TypeFilter; label: string }[] = [
+		{ value: 'all', label: 'All' },
+		{ value: 'unit', label: 'Unit' },
+		{ value: 'special', label: 'Special' },
+		{ value: 'leader', label: 'Leader' }
+	];
 
 	const sortLabels: Record<SortMode, string> = {
 		original: 'Random',
@@ -130,7 +150,14 @@
 
 	const normalizedSearchTerm = $derived(searchTerm.trim().toLowerCase());
 	const filteredCards = $derived(
-		cardItems.filter(({ text }) => text.title.toLowerCase().includes(normalizedSearchTerm))
+		cardItems.filter(({ card, text }) => {
+			if (!text.title.toLowerCase().includes(normalizedSearchTerm)) return false;
+			if (factionFilter !== 'all' && card.faction !== factionFilter && card.faction !== null) return false;
+			if (typeFilter === 'unit' && (isSpecial(card) || card.type === 'leader')) return false;
+			if (typeFilter === 'special' && !isSpecial(card)) return false;
+			if (typeFilter === 'leader' && card.type !== 'leader') return false;
+			return true;
+		})
 	);
 	const displayedCards = $derived(
 		sortMode === 'original'
@@ -219,6 +246,38 @@
 
 	<aside class="filters-column" aria-label="Card filters">
 		<h2>Filters</h2>
+
+		<div class="filter-section">
+			<h3 class="filter-section__title">Faction</h3>
+			<div class="filter-btn-group">
+				{#each factionFilterOptions as option}
+					<button
+						class="filter-btn"
+						class:filter-btn--active={factionFilter === option.value}
+						type="button"
+						onclick={() => (factionFilter = option.value)}
+					>
+						{option.label}
+					</button>
+				{/each}
+			</div>
+		</div>
+
+		<div class="filter-section">
+			<h3 class="filter-section__title">Type</h3>
+			<div class="filter-btn-group">
+				{#each typeFilterOptions as option}
+					<button
+						class="filter-btn"
+						class:filter-btn--active={typeFilter === option.value}
+						type="button"
+						onclick={() => (typeFilter = option.value)}
+					>
+						{option.label}
+					</button>
+				{/each}
+			</div>
+		</div>
 	</aside>
 </main>
 
@@ -279,11 +338,69 @@
 	}
 
 	h2 {
-		margin: 0;
+		margin: 0 0 16px;
 		color: #dcc492;
 		font-size: 0.82rem;
 		line-height: 1;
 		text-transform: uppercase;
+	}
+
+	.filter-section {
+		margin-bottom: 20px;
+	}
+
+	.filter-section__title {
+		margin: 0 0 8px;
+		color: rgba(220, 196, 146, 0.55);
+		font-family: 'Cinzel Card Title', Georgia, serif;
+		font-size: 0.68rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+
+	.filter-btn-group {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.filter-btn {
+		width: 100%;
+		padding: 6px 10px;
+		border: 1px solid rgba(188, 145, 75, 0.35);
+		border-radius: 4px;
+		background: transparent;
+		color: rgba(220, 196, 146, 0.65);
+		font-family: 'Cinzel Card Title', Georgia, serif;
+		font-size: 0.72rem;
+		font-weight: 700;
+		text-align: left;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		cursor: pointer;
+		transition:
+			border-color 0.15s ease,
+			background 0.15s ease,
+			color 0.15s ease;
+	}
+
+	.filter-btn:hover {
+		border-color: rgba(214, 173, 97, 0.65);
+		background: rgba(188, 145, 75, 0.1);
+		color: #f1ddb1;
+	}
+
+	.filter-btn--active {
+		border-color: rgba(214, 173, 97, 0.85);
+		background: rgba(188, 145, 75, 0.18);
+		color: #f1ddb1;
+	}
+
+	.filter-btn:focus-visible {
+		outline: none;
+		border-color: #d6ad61;
+		box-shadow: 0 0 0 2px rgba(214, 173, 97, 0.22);
 	}
 
 	.deck-header {
@@ -407,6 +524,11 @@
 
 	.search-bar input::placeholder {
 		color: rgba(220, 196, 146, 0.48);
+	}
+
+	.search-bar input::-webkit-search-cancel-button {
+		filter: invert(1) sepia(1) saturate(5) hue-rotate(310deg);
+		cursor: pointer;
 	}
 
 	.card-grid {
