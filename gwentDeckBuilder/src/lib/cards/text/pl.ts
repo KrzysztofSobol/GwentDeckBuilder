@@ -10,7 +10,7 @@ export const polishCardText: Partial<Record<CardTextId, Partial<CardText>>> = {
 		title: 'Królewicz Ropuch',
 		subtitle: '',
 		abilityDescription: '',
-		quote: 'Czy pocałuneg go odczaruje?\n Nie wiem, nikt nie próbował'
+		quote: 'Czy pocałunek go odczaruje?\n Nie wiem, nikt nie próbował'
 	},
 	mo_geralt: {
 		title: 'Geralt z rivii',

@@ -3,9 +3,18 @@
 	import DeckList from '$lib/components/DeckList.svelte';
 	import { allCards } from '$lib/cards/allCards';
 	import { getCardText } from '$lib/cards/text';
-	import type { CardDefinition, CardLanguage, CardText } from '$lib/cards/types';
+	import type { CardDefinition, CardLanguage, CardText, Faction } from '$lib/cards/types';
 
 	const language: CardLanguage = 'en';
+
+	const FACTIONS: Faction[] = ['MO', 'NIL', 'NOR', 'SC', 'SK'];
+
+	const expandedAllCards: CardDefinition[] = allCards.flatMap((card) => {
+		if (card.faction !== null) return [card];
+		return FACTIONS.map((f) => ({ ...card, id: `${card.id}__${f}`, faction: f }));
+	});
+
+	const getBaseId = (id: string) => id.includes('__') ? id.split('__')[0] : id;
 
 	// there can only be 1 leader in the deck, its a bit of seperate thing
 	let deckLeader = $state<CardDefinition | null>(null);
@@ -52,7 +61,7 @@
 				if (b.power === null) return -1;
 				return b.power - a.power;
 			})
-			.map((card) => ({ card, name: getDisplayText(card.id).title }))
+			.map((card) => ({ card, name: getDisplayText(getBaseId(card.id)).title }))
 	);
 
 	const leaderEntry = $derived(
@@ -141,10 +150,10 @@
 	};
 
 	const cardItems = $derived(
-		allCards.map((card, index) => ({
+		expandedAllCards.map((card, index) => ({
 			card,
 			index,
-			text: getDisplayText(card.id)
+			text: getDisplayText(getBaseId(card.id))
 		}))
 	);
 
@@ -152,7 +161,7 @@
 	const filteredCards = $derived(
 		cardItems.filter(({ card, text }) => {
 			if (!text.title.toLowerCase().includes(normalizedSearchTerm)) return false;
-			if (factionFilter !== 'all' && card.faction !== factionFilter && card.faction !== null) return false;
+			if (factionFilter !== 'all' && card.faction !== factionFilter) return false;
 			if (typeFilter === 'unit' && (isSpecial(card) || card.type === 'leader')) return false;
 			if (typeFilter === 'special' && !isSpecial(card)) return false;
 			if (typeFilter === 'leader' && card.type !== 'leader') return false;

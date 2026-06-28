@@ -160,7 +160,7 @@
 				? `${ELEMENTS_PATH}desc_background_top_bar_hero_gold.png`
 				: `${ELEMENTS_PATH}desc_background_top_bar_hero_silver.png`
 			: isGoldFaction
-				? `${ELEMENTS_PATH}desc_background_top_ bar_gold.png`
+				? `${ELEMENTS_PATH}desc_background_top_bar_gold.png`
 				: `${ELEMENTS_PATH}desc_background_top_bar_silver.png`
 	);
 </script>
