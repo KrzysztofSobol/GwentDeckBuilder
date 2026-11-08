@@ -15,8 +15,10 @@ To recreate this project with the same configuration:
 
 ```sh
 # recreate this project
-npx sv@0.15.1 create --template minimal --types ts --add prettier tailwindcss="plugins:none" sveltekit-adapter="adapter:node" drizzle="database:postgresql+postgresql:postgres.js+docker:yes" better-auth="demo:password" --install npm gwentDeckBuilder
+npx sv@0.15.1 create --template minimal --types ts --add prettier tailwindcss="plugins:none" sveltekit-adapter="adapter:node" --install npm gwentDeckBuilder
 ```
+
+> This project is intentionally login-free: there is no user database, authentication, or account system.
 
 ## Developing
 

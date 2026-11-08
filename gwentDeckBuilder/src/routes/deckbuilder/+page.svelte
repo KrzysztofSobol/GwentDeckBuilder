@@ -163,7 +163,7 @@
 		cardItems.filter(({ card, text }) => {
 			if (!text.title.toLowerCase().includes(normalizedSearchTerm)) return false;
 			if (factionFilter !== 'all' && card.faction !== factionFilter) return false;
-			if (typeFilter === 'unit' && (isSpecial(card) || card.type === 'leader' || card.type === 'hero')) return false;
+			if (typeFilter === 'unit' && !isUnit(card)) return false;
 			if (typeFilter === 'hero' && card.type !== 'hero') return false;
 			if (typeFilter === 'special' && !isSpecial(card)) return false;
 			if (typeFilter === 'leader' && card.type !== 'leader') return false;
