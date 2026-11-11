@@ -70,12 +70,18 @@
 
 	type SortMode = 'original' | 'ascending' | 'descending';
 	type FactionFilter = 'all' | 'MO' | 'NIL' | 'NOR' | 'SC' | 'SK';
-	type TypeFilter = 'all' | 'unit' | 'special' | 'hero' | 'leader';
+	type TypeFilter = 'unit' | 'special' | 'hero' | 'leader';
 
 	let searchTerm = $state('');
 	let sortMode = $state<SortMode>('original');
 	let factionFilter = $state<FactionFilter>('all');
-	let typeFilter = $state<TypeFilter>('all');
+	let typeFilters = $state<TypeFilter[]>([]);
+
+	const toggleTypeFilter = (value: TypeFilter) => {
+		typeFilters = typeFilters.includes(value)
+			? typeFilters.filter((type) => type !== value)
+			: [...typeFilters, value];
+	};
 
 	const factionFilterOptions: { value: FactionFilter; label: string }[] = [
 		{ value: 'all', label: 'All' },
@@ -87,7 +93,6 @@
 	];
 
 	const typeFilterOptions: { value: TypeFilter; label: string }[] = [
-		{ value: 'all', label: 'All' },
 		{ value: 'unit', label: 'Unit' },
 		{ value: 'special', label: 'Special' },
 		{ value: 'hero', label: 'Hero' },
@@ -163,10 +168,14 @@
 		cardItems.filter(({ card, text }) => {
 			if (!text.title.toLowerCase().includes(normalizedSearchTerm)) return false;
 			if (factionFilter !== 'all' && card.faction !== factionFilter) return false;
-			if (typeFilter === 'unit' && !isUnit(card)) return false;
-			if (typeFilter === 'hero' && card.type !== 'hero') return false;
-			if (typeFilter === 'special' && !isSpecial(card)) return false;
-			if (typeFilter === 'leader' && card.type !== 'leader') return false;
+			if (typeFilters.length > 0) {
+				const matchesType = typeFilters.some((type) => {
+					if (type === 'unit') return isUnit(card);
+					if (type === 'special') return isSpecial(card);
+					return card.type === type;
+				});
+				if (!matchesType) return false;
+			}
 			return true;
 		})
 	);
@@ -280,9 +289,10 @@
 				{#each typeFilterOptions as option}
 					<button
 						class="filter-btn"
-						class:filter-btn--active={typeFilter === option.value}
+						class:filter-btn--active={typeFilters.includes(option.value)}
 						type="button"
-						onclick={() => (typeFilter = option.value)}
+						aria-pressed={typeFilters.includes(option.value)}
+						onclick={() => toggleTypeFilter(option.value)}
 					>
 						{option.label}
 					</button>
