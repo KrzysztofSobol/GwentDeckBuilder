@@ -24,3 +24,6 @@ vite.config.ts.timestamp-*
 # Editor / tooling
 .vscode
 .claude
+
+# Lockfile
+package-lock.json
