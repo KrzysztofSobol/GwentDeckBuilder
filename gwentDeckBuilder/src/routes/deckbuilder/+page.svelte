@@ -83,6 +83,19 @@
 			: [...typeFilters, value];
 	};
 
+	// 0-9 match exactly, 10 means 10 or more
+	const powerFilterOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+	let powerFilters = $state<number[]>([]);
+
+	const togglePowerFilter = (value: number) => {
+		powerFilters = powerFilters.includes(value)
+			? powerFilters.filter((power) => power !== value)
+			: [...powerFilters, value];
+	};
+
+	const matchesPower = (power: number | null) =>
+		power !== null && powerFilters.includes(Math.min(power, 10));
+
 	const factionFilterOptions: { value: FactionFilter; label: string }[] = [
 		{ value: 'all', label: 'All' },
 		{ value: 'MO', label: 'Monsters' },
@@ -100,7 +113,7 @@
 	];
 
 	const sortLabels: Record<SortMode, string> = {
-		original: 'Random',
+		original: 'Default',
 		ascending: 'Ascending',
 		descending: 'Descending'
 	};
@@ -168,6 +181,7 @@
 		cardItems.filter(({ card, text }) => {
 			if (!text.title.toLowerCase().includes(normalizedSearchTerm)) return false;
 			if (factionFilter !== 'all' && card.faction !== factionFilter) return false;
+			if (powerFilters.length > 0 && !matchesPower(card.power)) return false;
 			if (typeFilters.length > 0) {
 				const matchesType = typeFilters.some((type) => {
 					if (type === 'unit') return isUnit(card);
@@ -239,7 +253,6 @@
 
 	<section class="cards-column" aria-label="Cards">
 		<div class="search-bar">
-			<label for="card-name-search">Cards</label>
 			<button class="sort-button" type="button" onclick={cycleSortMode}>
 				Sort: {sortLabels[sortMode]}
 			</button>
@@ -248,8 +261,22 @@
 				type="search"
 				bind:value={searchTerm}
 				placeholder="Search card name"
+				aria-label="Search card name"
 				autocomplete="off"
 			/>
+			<div class="power-filter" role="group" aria-label="Power">
+				{#each powerFilterOptions as option}
+					<button
+						class="power-btn"
+						class:power-btn--active={powerFilters.includes(option)}
+						type="button"
+						aria-pressed={powerFilters.includes(option)}
+						onclick={() => togglePowerFilter(option)}
+					>
+						{option === 10 ? '10+' : option}
+					</button>
+				{/each}
+			</div>
 		</div>
 
 		<div class="card-grid" aria-live="polite">
@@ -479,8 +506,8 @@
 	}
 
 	.search-bar {
-		display: grid;
-		grid-template-columns: auto 148px minmax(180px, 360px);
+		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		gap: 10px;
 		padding: 14px 16px;
@@ -488,20 +515,55 @@
 		background: rgba(30, 22, 14, 0.72);
 	}
 
-	.search-bar label {
-		color: #dcc492;
-		font-size: 0.72rem;
-		line-height: 1;
-		text-transform: uppercase;
+	.power-filter {
+		display: flex;
+		gap: 4px;
+	}
+
+	.power-btn {
+		width: 36px;
+		height: 36px;
+		padding: 0;
+		border: 1px solid rgba(188, 145, 75, 0.35);
+		border-radius: 4px;
+		background: transparent;
+		color: rgba(220, 196, 146, 0.65);
+		font:
+			700 0.95rem/1 'Cinzel Card Title',
+			Georgia,
+			serif;
+		cursor: pointer;
+		transition:
+			border-color 0.15s ease,
+			background 0.15s ease,
+			color 0.15s ease;
+	}
+
+	.power-btn:hover {
+		border-color: rgba(214, 173, 97, 0.65);
+		background: rgba(188, 145, 75, 0.1);
+		color: #f1ddb1;
+	}
+
+	.power-btn--active {
+		border-color: rgba(214, 173, 97, 0.85);
+		background: rgba(188, 145, 75, 0.18);
+		color: #f1ddb1;
+	}
+
+	.power-btn:focus-visible {
+		outline: none;
+		border-color: #d6ad61;
 	}
 
 	.sort-button {
+		flex: none;
 		width: 148px;
 		height: 36px;
-		border: 1px solid rgba(188, 145, 75, 0.58);
+		border: 1px solid rgba(188, 145, 75, 0.35);
 		border-radius: 4px;
-		background: linear-gradient(180deg, rgba(88, 61, 31, 0.92), rgba(45, 30, 17, 0.95)), #33200f;
-		color: #e5c785;
+		background: transparent;
+		color: rgba(220, 196, 146, 0.65);
 		font:
 			700 0.72rem/1 'Cinzel Card Title',
 			Georgia,
@@ -511,19 +573,19 @@
 	}
 
 	.sort-button:hover {
-		border-color: rgba(230, 195, 122, 0.82);
-		background: linear-gradient(180deg, rgba(106, 74, 38, 0.96), rgba(55, 36, 19, 0.98)), #412813;
+		border-color: rgba(214, 173, 97, 0.65);
+		background: rgba(188, 145, 75, 0.1);
 		color: #f1ddb1;
 	}
 
 	.sort-button:focus-visible {
 		outline: none;
 		border-color: #d6ad61;
-		box-shadow: 0 0 0 2px rgba(214, 173, 97, 0.22);
 	}
 
 	.search-bar input {
-		width: 100%;
+		flex: 1 1 180px;
+		max-width: 360px;
 		min-width: 0;
 		height: 36px;
 		border: 1px solid rgba(188, 145, 75, 0.54);
